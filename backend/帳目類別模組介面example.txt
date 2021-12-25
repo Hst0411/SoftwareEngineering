@@ -1,0 +1,39 @@
+1. 新增類別：http method:POST
+
+http://192.168.1.150:9000/recordCategory/insert-doc
+{
+    "userID":"user001",
+    "name":"打工獎金",
+    "incomeOrExpense":"收入"
+}
+
+2. 修改類別：http method:PUT
+
+http://192.168.1.150:9000/recordCategory/update-doc
+{
+    "userID":"user001",
+    "old_name":"音樂",
+    "old_incomeOrExpense":"支出",
+    "new_name":"音樂test"
+}
+
+3. 刪除類別：http method:DELETE
+
+http://192.168.1.150:9000/recordCategory/delete-doc?userID=user001&name=音樂test&incomeOrExpense=支出
+
+4. 查詢類別：http method:GET
+
+http://192.168.1.150:9000/recordCategory/get-docs?userID=user001&incomeOrExpense=支出
+
+輸出範例：(預設的也會一起塞進去傳回前端)
+[
+    "飲食",
+    "交通",
+    "娛樂",
+    "購物",
+    "生活",
+    "學習",
+    "其他",
+    "藝術",
+    "電腦"
+]

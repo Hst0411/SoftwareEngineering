@@ -1,0 +1,141 @@
+1. 新增個人帳戶：http method: POST
+http://192.168.1.150:9000/account/insert-doc
+
+輸入範例：
+{   "userID": "user001",
+    "accountName": "錢包",
+    "leftMoneyAmount": 1000
+}
+
+輸出範例：Inserted(http code: 200)
+
+==============================================================
+2. 修改個人帳戶資訊：http method: PUT
+http://192.168.1.150:9000/account/update-doc
+
+輸入範例：
+{
+    "id": "493c5d31-4a72-4c48-bb89-ec51b2ef9877",
+    "userID": "user001",
+    "accountName": "我的錢包",
+}
+
+輸出範例：Updated(http code: 200)
+
+==============================================================
+3. 刪除個人帳戶：http method: DELETE
+http://192.168.1.150:9000/account/delete-doc
+
+輸入範例：
+http://192.168.1.150:9000/account/delete-doc?id=493c5d31-4a72-4c48-bb89-ec51b2ef9877&userID=user001
+
+輸出範例：Delete(http code: 200)
+
+==============================================================
+4. 取得個別帳戶轉帳紀錄：http method: GET
+http://192.168.1.150:9000/account/transfer/get-transferInfo
+
+輸入範例：
+http://192.168.1.150:9000/account/transfer/get-transferInfo?userID=user001&accountName=我的錢包
+
+輸出範例：
+[
+    {
+        "_id": "7877a5c9-0938-4a77-8ae1-0551a135ea97",
+        "targetAccountName": "台灣銀行",
+        "transferDate": "Sat, 25 Dec 2021 12:10:00 GMT",
+        "transferFromOrTo": "To",
+        "transferMoneyAmount": 1500
+    },
+    {
+        "_id": "cfa4f348-7393-4379-9d59-1b46f7a3dafc",
+        "targetAccountName": "中華郵政",
+        "transferDate": "Sat, 25 Dec 2021 14:10:00 GMT",
+        "transferFromOrTo": "From",
+        "transferMoneyAmount": 2200
+    }
+]
+==============================================================
+5. 帳戶間轉帳：http method: POST
+http://172.20.10.3:9000/account/transfer/post-doc
+
+輸入範例：
+{
+    "userID": "user001",
+    "accountName": "我的錢包",
+    "transferFromOrTo": "From",
+    "targetAccountName": "中華郵政",
+    "transferDate": {
+        "year": 2021,
+        "month": 12,
+        "day": 25,
+        "hour": 20,
+        "minute": 10
+    },
+    "transferMoneyAmount": 666
+}
+
+輸出範例：Inserted(http code: 200)
+
+==============================================================
+6. 取得帳戶名稱：http method: GET
+http://172.20.10.3:9000/account/get-name?userID=user001
+
+輸入範例：
+{
+    "userID": "user001"
+}
+
+輸出範例：
+{
+    "錢包",
+    "中華郵政",
+    "台灣銀行",
+    "Line Pay",
+    "街口支付"
+}
+
+==============================================================
+7. 取得所有帳戶資訊：http method: GET
+http://172.20.10.3:9000/account/get-docs?userID=user001
+
+輸出範例：
+[
+    {
+        "_id": "493c5d31-4a72-4c48-bb89-ec51b2ef9877",
+        "accountName": "我的錢包",
+        "leftMoneyAmount": 4700,
+        "transferRecord": [
+            {
+                "_id": "7877a5c9-0938-4a77-8ae1-0551a135ea97",
+                "targetAccountName": "中華郵政",
+                "transferDate": "Sat, 25 Dec 2021 12:10:00 GMT",
+                "transferFromOrTo": "From",
+                "transferMoneyAmount": 1500
+            },
+            {
+                "_id": "cfa4f348-7393-4379-9d59-1b46f7a3dafc",
+                "targetAccountName": "中華郵政",
+                "transferDate": "Sat, 25 Dec 2021 14:10:00 GMT",
+                "transferFromOrTo": "From",
+                "transferMoneyAmount": 2200
+            }
+        ],
+        "userID": "user001"
+    },
+    {
+        "_id": "51ebe56c-2057-441e-8c2f-f8f3a2e811f6",
+        "accountName": "中華郵政",
+        "leftMoneyAmount": 46300,
+        "transferRecord": [
+            {
+                "_id": "c736c096-d870-4343-8c41-89d463cb51c7",
+                "targetAccountName": "我的錢包",
+                "transferDate": "Sat, 25 Dec 2021 14:10:00 GMT",
+                "transferFromOrTo": "To",
+                "transferMoneyAmount": 2200
+            }
+        ],
+        "userID": "user001"
+    }
+]

@@ -1,0 +1,40 @@
+1. 取得近三個月收入支出金額：http method:GET
+
+http://192.168.1.150:9000/recordChart/get-months-compare-with-incomeExpense?userID=user002
+
+[
+    {
+        "expense": 300.0,
+        "income": 70000.0,
+        "month": 12,
+        "year": 2021
+    },
+    {
+        "expense": 2200.0,
+        "income": 0.0,
+        "month": 11,
+        "year": 2021
+    },
+    {
+        "expense": 0.0,
+        "income": 0.0,
+        "month": 10,
+        "year": 2021
+    }
+]
+
+2. 取得選定期間收入或支出各類別的金額：http method:GET
+註：收入及支出的類別比較皆使用此API(輸入資料包含收入或支出)
+
+http://192.168.1.150:9000/recordChart/get-category-compare?userID=user002&startDateYear=2021&startDateMonth=11&startDateDay=1&endDateYear=2021&endDateMonth=12&endDateDay=16&incomeOrExpense=收入
+
+[
+    {
+        "_id": "薪水",
+        "total_amount": 50000
+    },
+    {
+        "_id": "獎金",
+        "total_amount": 20000
+    }
+]

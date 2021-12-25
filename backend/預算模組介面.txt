@@ -1,0 +1,87 @@
+1. 新增預算項目：http method:POST
+
+http://10.0.0.9:9000/budget/insert-doc
+{
+    "userID":"user001",
+    "budgetName":"飲食預算",
+    "startDate":{
+        "year":2021,
+        "month":12,
+        "day":1
+    },
+    "endDate":{
+        "year":2021,
+        "month":12,
+        "day":31
+    },
+    "targetMoneyAmount":5000
+}
+
+2. 修改預算項目：http method:PUT
+
+http://192.168.0.155:9000/budget/update-doc
+{
+    "userID":"user001",
+    "budgetName":"飲食預算",
+    "id":"dfa8929a-874e-4b28-8161-034f97f37087"
+    "startDate":{
+        "year":2021,
+        "month":12,
+        "day":1
+    },
+    "endDate":{
+        "year":2021,
+        "month":12,
+        "day":31
+    },
+    "targetMoneyAmount":5000
+}
+
+輸出範例：
+{
+    "budgetName": "飲食預算",
+    "overSpend": false
+}
+
+
+3. 刪除預算項目：http method:DELETE
+
+http://10.0.0.9:9000/budget/delete-doc?userID=user001&id=dfa8929a-874e-4b28-8161-034f97f37087
+
+4. 查詢預算項目：http method:GET
+
+http://10.0.0.9:9000/budget/get-docs?userID=user001
+
+輸出範例：(預設的也會一起塞進去傳回前端)
+[
+    {
+        "_id": "720be832-afd6-4b6b-962d-0371f9755061",
+        "budgetName": "交通預算",
+        "endDate": "Fri, 31 Dec 2021 00:00:00 GMT",
+        "overSpend": true,
+        "startDate": "Wed, 01 Dec 2021 00:00:00 GMT",
+        "targetMoneyAmount": 2000,
+        "usedMoneyAmount": 1550,
+        "userID": "user001"
+    },
+    {
+        "_id": "d1602241-5b0a-45c5-a609-5b3c41dc4a2b",
+        "budgetName": "飲食預算",
+        "endDate": "Fri, 31 Dec 2021 00:00:00 GMT",
+        "overSpend": false,
+        "startDate": "Wed, 01 Dec 2021 00:00:00 GMT",
+        "targetMoneyAmount": 5000,
+        "usedMoneyAmount": 0,
+        "userID": "user001"
+    }
+]
+
+5. 取得預算項目名稱：http method:GET
+
+http://10.0.0.9:9000/budget/get-available-budget?userID=user001&year=2021&month=12&day=21
+
+輸出範例：
+[
+    "交通預算",
+    "飲食預算"
+]

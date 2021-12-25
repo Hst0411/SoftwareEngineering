@@ -1,0 +1,97 @@
+1. 取得帳目紀錄資料 http method:GET
+(1)
+輸入範例：http://192.168.1.150:9000/record/get-docs?userID=user002&incomeOrExpense=收入&year=2021&month=12&day=7
+輸出範例：
+[
+    {
+        "_id": "82741a81-5d6a-4333-9543-4eb6b9e1d892",
+        "accountName": "錢包",
+        "budgetName": null,
+        "category": "薪水",
+        "date": "Tue, 07 Dec 2021 08:20:00 GMT",
+        "incomeOrExpense": "收入",
+        "moneyAmount": 50000,
+        "name": null,
+        "userID": "user002"
+    },
+    {
+        "_id": "073505b0-9b89-44e3-97de-0cf7a517308b",
+        "accountName": "新光銀行帳戶",
+        "budgetName": null,
+        "category": "獎金",
+        "date": "Tue, 07 Dec 2021 05:40:00 GMT",
+        "incomeOrExpense": "收入",
+        "moneyAmount": 20000,
+        "name": null,
+        "userID": "user002"
+    }
+]
+(2)
+輸入範例：http://192.168.1.150:9000/record/get-docs?userID=user002&incomeOrExpense=支出&year=2021&month=12&day=7
+輸出範例：
+[
+    {
+        "_id": "4df7ba01-a5a9-4a5f-99a6-142328a9de3d",
+        "accountName": "錢包",
+        "budgetName": "娛樂預算",
+        "category": "娛樂",
+        "date": "Tue, 07 Dec 2021 00:00:00 GMT",
+        "incomeOrExpense": "支出",
+        "moneyAmount": 300,
+        "name": "電影票",
+        "userID": "user002"
+    }
+]
+2. 新增帳目紀錄資料 http method:POST
+輸入範例：http://192.168.1.150:9000/record/insert-doc
+輸入資料Body：
+{
+    "userID": "user003",
+    "accountName": "新光銀行帳戶",
+    "budgetName": null,
+    "category": "獎金",
+    "date":{
+        "year":2021,
+        "month":12,
+        "day":11,
+        "hour":5,
+        "minute":40
+    },
+    "incomeOrExpense": "收入",
+    "moneyAmount": 10000,
+    "name": null
+}
+輸出範例：
+{
+    "budgetName": "娛樂",
+    "overSpend": true
+}
+3. 修改帳目紀錄資料 http method:PUT
+輸入範例：http://192.168.1.150:9000/record/update-doc
+輸入資料Body：
+{
+    "id": "cf50b7cd-aede-4039-b895-c8238489b7b2",
+    "userID": "user001",
+    "new_name": "拉麵",
+    "new_category": "飲食",
+    "new_date":{
+        "year":2021,
+        "month":12,
+        "day":3,
+        "hour":0,
+        "minute":0
+    },
+    "new_moneyAmount": 150,
+    "new_accountName": "錢包",
+    "new_budgetName": "飲食預算"
+}
+輸出範例：
+{
+    "budgetName": "娛樂預算",
+    "overSpend": false
+}
+4. 刪除帳目紀錄資料 http method:DELETE
+輸入範例：http://192.168.1.150:9000/record/delete-doc?id=cf50b7cd-aede-4039-b895-c8238489b7b2&userID=user001
+輸出範例：Deleted!(http code:200)
+
+
