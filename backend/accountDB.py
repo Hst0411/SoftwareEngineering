@@ -6,7 +6,6 @@ from pymongo import MongoClient, DESCENDING
 from bson.objectid import ObjectId
 from uuid import uuid4
 
-from pymongo.message import _query_uncompressed, query
 
 
 import mainDB
