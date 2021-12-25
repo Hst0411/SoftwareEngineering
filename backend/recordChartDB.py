@@ -136,7 +136,7 @@ def get_months_compare(userID):
 def get_category_compare(userID, incomeOrExpense, startDateYear, startDateMonth, startDateDay, endDateYear, endDateMonth, endDateDay):
     date_query = {
         "$gte":  datetime(int(startDateYear), int(startDateMonth), int(startDateDay)),
-        "$lte": datetime(int(endDateYear), int(endDateMonth), int(endDateDay))
+        "$lte": datetime(int(endDateYear), int(endDateMonth), int(endDateDay), 23, 59, 59)
     }
     # 確認結果是否正確
     pipeline = [
