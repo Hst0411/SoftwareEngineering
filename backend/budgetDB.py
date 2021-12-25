@@ -70,6 +70,8 @@ def get_docs(userID):
 
 
 def record_revise_doc_decrease(userID, old_budgetName, old_moneyAmount):
+    if old_budgetName == None:
+        return False
     query = {
         "userID": userID,
         "budgetName": old_budgetName
@@ -87,6 +89,8 @@ def record_revise_doc_decrease(userID, old_budgetName, old_moneyAmount):
 
 
 def record_revise_doc_increase(userID, new_budgetName, new_moneyAmount):
+    if new_budgetName == None:
+        return False
     query = {
         "userID": userID,
         "budgetName": new_budgetName
