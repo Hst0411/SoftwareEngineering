@@ -55,7 +55,7 @@ def get_docs(userID, incomeOrExpense, date):
             # date大於等於此日期的條件($gte:大於等於)
             "$gte": datetime(int(date["year"]), int(date["month"]), int(date["day"])),
             # date小於此日期的條件($lt:小於)
-            "$lt": datetime(int(date["year"]), int(date["month"]), int(date["day"])+1)
+            "$lt": datetime(int(date["year"]), int(date["month"]), int(date["day"]), 23, 59, 59)
         }
     })
     # 用find()函式取得的變數(temp_result)是指標，所以要尋訪每個item並塞到list資料結構的變數(result)再回傳
@@ -80,7 +80,7 @@ def budget_revise(userID, old_budgetName, new_budgetName, new_start_date, new_en
     mainDB.DB.get_collection(config.recordCol).update_many(
         {"userID": userID, "budgetName": old_budgetName}, {"$set": {"budgetName": new_budgetName}})
     mainDB.DB.get_collection(config.recordCol).update_many({"userID": userID, "budgetName": new_budgetName, "date": {
-        "$lt": new_start_date, "$gt": new_end_date}}, {"$set": {"budgetName": None}})
+        "$lt": datetime(new_start_date["year"], new_start_date["month"], new_start_date["day"]) , "$gt": datetime(new_end_date["year"], new_end_date["month"], new_end_date["day"], 23, 59, 59)}}, {"$set": {"budgetName": None}})
 
 
 def budget_delete(userID, budgetName):
