@@ -1,0 +1,284 @@
+<!Doctype html>
+<html lang="en">
+    
+    <title>budget</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <head>
+        <style>
+            * {
+                font-family: Microsoft JhengHei;
+            }
+            button {
+                margin: 5px;
+                background: #df5334;
+            }
+
+            .edit,.delete,.yes,.no, .complete{
+                color: white;  
+                font-size: 12px;
+                width: 43px;
+                height: 40px;
+                font-weight: bolder;
+                border:0;           /*去邊框*/
+                border-radius: 10px;
+                cursor: pointer; /*可以指*/
+            }
+
+            .edit:hover,.delete:hover,.yes:hover,.no:hover,.signout:hover,.add_budget:hover,.complete:hover{
+                border:2px;
+                background-color: #db6937;
+                border-style: solid;
+            }
+
+            .add_budget{
+                position: relative;
+                left: 805px;
+                top: -5px;
+                color: white;
+                width: 80px;
+                height: 50px;
+                font-weight: bolder;
+                border:0;           /*去邊框*/
+                border-radius: 10px;
+                cursor: pointer; /*可以指*/
+            }
+
+            .yes,.no{
+            margin-top: 50px;
+            width: 100px;
+            position: relative;
+            top: -10px;
+            }
+
+            /*size control for the computer img*/
+            .computer_img{
+            height:60px;
+            width:60px;
+            position: absolute;
+            left: 0px;
+            top:8px;
+            }
+
+            /* Remove the navbar's default margin-bottom and rounded borders */
+            .navbar {
+                margin-bottom: 0;
+                border-radius: 0;
+                border: none;
+                background-color: dimgray;
+            }
+    
+            /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+            .row.content {
+                height: 643px
+            }
+    
+            /* Set gray background color and 100% height */
+            .sidenav {
+                background-color: #f1f1f1;
+                height: 100%;
+            }
+    
+        .y {
+            background-color: orange;
+            color: black;
+            margin-bottom: 0;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bolder;
+        }
+        .y:hover {
+            background-color: red;
+        }
+        .dropdown-menu {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            width: 100%;
+            box-shadow: none;
+            position: relative;
+            text-align: center;
+            margin-bottom: 10px;
+            
+        }
+            a {
+                text-decoration: none;
+            }
+    
+            a:hover {
+                text-decoration: none;
+            }
+    
+            .dropdown {
+                position: relative;
+            }
+    
+            .dropdown-menu {
+                margin: 0;
+                border: none;
+                border-radius: 0;
+                padding: 0;
+                width: 100%;
+                box-shadow: none;
+                position: relative;
+                text-align: center;
+                margin-bottom: 10px;
+    
+            }
+
+            .budget_record{
+            position: relative;
+            left: 40px;
+            height: 50px;
+            display: inline-block;
+            }
+
+            .signout{
+            height:45px;
+            width:60px;
+            position: absolute;
+            left: 1300px;
+            top:8px;
+            color:white;
+            font-weight: bolder;
+            border:0;           /*去邊框*/
+            border-radius: 10px;
+            cursor: pointer; /*可以指*/
+            }
+
+            tr,th,td{
+                width: 130px;
+                height:40px;
+                border: 1px solid;
+                text-align: center;
+            }
+
+            #budget_remind, #complete_remind{
+                position: relative;
+            left: 450px;
+            top: 100px;
+            text-align: center;
+            width: 250px;
+            height: 130px;
+            font-weight: bolder;
+            background-color: rgb(255, 238, 0);
+            border-radius: 10px;                 /*框的角*/
+            border: 1px solid;
+            box-shadow: 0 0px 50px rgba(0, 0, 0, 0.1); /*rgba的a為陰影部分*/
+        }
+    
+            /* Set black background color, white text and some padding */
+            footer {
+                background-color: #555;
+                color: white;
+                padding: 15px;
+            }
+    
+            /* On small screens, set height to 'auto' for sidenav and grid */
+            @media screen and (max-width: 767px) {
+                .sidenav {
+                    height: auto;
+                    padding: 15px;
+                }
+    
+                .row.content {
+                    height: auto;
+                }
+            }
+        </style>
+    
+        <script type="text/javascript" src="testBudget.js">
+        </script>
+    </head>
+
+    <body>
+        <div class="container-fluid" style="background-color:rgb(255, 251, 38)">
+            <h1 style="font-size: 35px;"><strong><span style="left: 50px;position: relative;">記帳小幫手</span></strong></h1>
+            <img src = "computer.png" class = "computer_img">
+            <button class = "signout" id = "signout" style="z-index: 1;">登出</button>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row content">
+                <div class="col-sm-2" style="padding:0; height: 100%; background-color:orange">
+
+                    <ul class="nav sidenav-nav">
+                        <li class="dropdown">
+                            <a href="home.html" style="padding:0;">
+                                <p class="y">首頁</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="selection.html" style="padding:0;">
+                                <p class="y">比較總收支狀況</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="category.html" style="padding:0;">
+                                <p class="y">類別設定</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="testBudget.html" style="padding:0;">
+                                <p class="y">預算</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="account.html" style="padding:0;">
+                                <p class="y">個人帳戶</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="setting.html" style="padding:0;">
+                                <p class="y">設定</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="setting.html" style="padding:0;">
+                                <p class="y">登出</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            <!--此畫面主內容-->
+            <div class="col-sm-10">
+                <div style="position:relative;">
+                    <h1>預算設定</h1>
+                </div>
+
+                <div class = "budget_record">
+                    <button class = "add_budget" onclick = "add_budget()">新增預算</button>
+                    <table class = "table" id = "budget_table">
+                        <tbody>
+                            <tr style = "background:rgb(199, 253, 255)" id = "budget">
+                                <th style = "background-color:rgb(143, 255, 218); font-size : 18px">預算</th>
+                                <th>預算種類</th>
+                                <th>起始日期</th>
+                                <th>結束日期</th>
+                                <th>預算</th>
+                                <th>已支出金額</th>
+                                <th></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id = "budget_remind" style="display: none;">
+                    <span style="top:20px;position: relative; font-size: 25px;">確定要刪除嗎?</span>
+                    <button class = "yes" onclick="delete_budget()">確定</button>
+                    <button class = "no" onclick="cancel()">取消</button>
+                </div>
+
+                <div id = "complete_remind" style="display: none;">
+                    <span style="top:20px;position: relative; font-size: 25px;">確定完成嗎?</span>
+                    <button class = "yes" onclick="complete_fill(obj)">確定</button>
+                    <button class = "no" onclick="cancel()">取消</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
