@@ -46,6 +46,7 @@ function GetIncomeData(){
                 mappingIncome.set(i, "value", data_income[i].value);
                 mappingIncome.set(i, "x", data_income[i].x);
             }
+            incomelength = income_data.length;
         }
     });
 }
@@ -137,13 +138,13 @@ function work()
 function update_pie() //清除並從新畫
 {
     //entertainment_income = 5000, travel_income = 8000, food_income = 6000, life_income = 10000;
-    entertainment_expense = 10000, travel_expense = 3000, food_expense = 13000, life_expense = 18000;
+    //entertainment_expense = 10000, travel_expense = 3000, food_expense = 13000, life_expense = 18000;
+
     GetIncomeData();
     GetExpenseData();
 
-    dataExpense = anychart.data.set(data_expense)
     dataIncome = anychart.data.set(data_income);
-
+    dataExpense = anychart.data.set(data_expense)
     mappingExpense = dataExpense.mapAs({x: "category", value: 0});
     mappingIncome = dataIncome.mapAs({x: "category", value: 0});
 
