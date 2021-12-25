@@ -1,9 +1,12 @@
 # Define connection string (one only) mongodb://<user>:<password>@<mongodbURL>
-host = "mongodb+srv://<user>:<password>@<mongodbURL>"
+host = ""
 
 # Select Database (one only)
-db = "picDiary"
+db = "SEProject"
 
 # Define collections (can be multiple)
-postCol = "posts"
-fileCol = "files"
+memberCol = "member"
+recordCol = "record"
+recordCategoryCol = "recordCategory"
+budgetCol = "budget"
+accountCol = "account"
