@@ -47,7 +47,6 @@ def delete_doc(id, userID):
 
 
 def get_docs(userID, incomeOrExpense, date):
-    print("hello")
     query = dict()
     query["userID"] = userID
     query["_id"] = date
