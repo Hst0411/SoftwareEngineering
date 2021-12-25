@@ -1,52 +1,76 @@
 href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
 src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
 src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-
-
 var start_year='', start_month, start_day, dateSent_start, dateSent_end;
 var end_year='', end_month, end_day;
-var entertainment_income = 10000, travel_income = 3000, food_income = 9000, life_income = 20000;
+var incomelength, expenselength;
 
 var data_income = [
-    {x: "娛樂", value: entertainment_income},
-    {x: "旅行", value: travel_income},
-    {x: "食物", value: food_income},
-    {x: "生活", value: life_income}
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
 ];
-
-var entertainment_expense = 15000, travel_expense = 8000, food_expense = 17000, life_expense = 28000;
 var data_expense = [
-    {x: "娛樂", value: entertainment_expense},
-    {x: "旅行", value: travel_expense},
-    {x: "食物", value: food_expense},
-    {x: "生活", value: life_expense}
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
+    {x: "", value: 0},
 ];
-
-var dataIncome = anychart.data.set(data_income);
-var dataExpense = anychart.data.set(data_expense)
-var mappingIncome = dataIncome.mapAs({x: "category", value: 1});
-var mappingExpense = dataExpense.mapAs({x: "category", value: 1});
-
+var dataExpense;
+var dataIncome;
+var mappingExpense;
+var mappingIncome;
 var elementID = "container";
 var elementID2 = "container2";
-/*$.ajax({
-    url: 'http://172.20.10.3:9000/record/get-docs?userID=user002&incomeOrExpense=支出&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
-    method: 'GET',
-    dataType: 'json',
-    success: function(expense_data) {
+function GetIncomeData(){
+    $.ajax({
+        url: 'http://172.20.10.3:9000/recordChart/get-category-compare?userID=user001&startDateYear='+start_year+'&startDateMonth='+start_month+
+        '&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=收入',
+        method: 'GET',
+        dataType: 'json',
+        success: function(income_data) {
+            for(var i=0;i<income_data.length;i++){
+                data_income[i].x = income_data[i]._id;
+                data_income[i].value = income_data[i].total_amount;
+                mappingIncome.set(i, "value", data_income[i].value);
+                mappingIncome.set(i, "x", data_income[i].x);
+            }
+        }
+    });
+}
+function GetExpenseData(){
+    $.ajax({
+        url: 'http://172.20.10.3:9000/recordChart/get-category-compare?userID=user001&startDateYear='+start_year+'&startDateMonth='+start_month+
+        '&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=支出',
+        method: 'GET',
+        dataType: 'json',
+        success: function(expense_data) {
+            console.log(expense_data)
+            for(var i=0;i<expense_data.length;i++){
+                data_expense[i].x = expense_data[i]._id;
+                data_expense[i].value = expense_data[i].total_amount;
+                mappingExpense.set(i, "value", data_expense[i].value);
+                mappingExpense.set(i, "x", data_expense[i].x);
+            }
+        }
+    });
+}
+/*anychart.onDocumentReady(function draw_pie() { //一開始就畫的
 
-    }
-});*/
-$.ajax({
-    url: 'http://172.20.10.3:9000/recordChart/get-category-compare?userID=user002&startDateYear='+start_year+'&startDateMonth='+start_month+'&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=收入',
-    method: 'GET',
-    dataType: 'json',
-    success: function(income_data) {
-        
-    }
-});
-anychart.onDocumentReady(function draw_pie() { //一開始就畫的
-
+    //GetExpenseData();
+    GetIncomeData();
+    console.log(data_expense[0]);
     container.innerHTML = "";
     container2.innerHTML = "";
     
@@ -76,7 +100,7 @@ anychart.onDocumentReady(function draw_pie() { //一開始就畫的
     chart2.container('container2');
     chart2.draw();
   
-});
+});*/
 
 function setDate(){
     dateSent_start = document.getElementById('startDate').value; //開始日期
@@ -110,20 +134,18 @@ function work()
     setDate();
     update_pie();
 }
-
 function update_pie() //清除並從新畫
 {
-    entertainment_income = 5000, travel_income = 8000, food_income = 6000, life_income = 10000;
+    //entertainment_income = 5000, travel_income = 8000, food_income = 6000, life_income = 10000;
     entertainment_expense = 10000, travel_expense = 3000, food_expense = 13000, life_expense = 18000;
-    mappingIncome.set(0, "value", entertainment_income);
-    mappingIncome.set(1, "value", travel_income);
-    mappingIncome.set(2, "value", food_income);
-    mappingIncome.set(3, "value", life_income);
+    GetIncomeData();
+    GetExpenseData();
 
-    mappingExpense.set(0, "value", entertainment_expense);
-    mappingExpense.set(1, "value", travel_expense);
-    mappingExpense.set(2, "value", food_expense);
-    mappingExpense.set(3, "value", life_expense);
+    dataExpense = anychart.data.set(data_expense)
+    dataIncome = anychart.data.set(data_income);
+
+    mappingExpense = dataExpense.mapAs({x: "category", value: 0});
+    mappingIncome = dataIncome.mapAs({x: "category", value: 0});
 
     container.innerHTML = ""; //清 container
     container2.innerHTML = "";
