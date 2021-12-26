@@ -23,51 +23,51 @@ app.register_blueprint(appBudget)
 app.register_blueprint(appAccount)
 app.register_blueprint(appRecordChart)
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def index_page():
     return "Hello!!"
 
-@app.route('/home.html')
+@app.route('/home.html', methods=["GET"])
 def home_page():
     return render_template("home.html")
 
-@app.route('/category.html')
+@app.route('/category.html', methods=["GET"])
 def category_page():
     return render_template("category.html")
 
-@app.route('/account.html')
+@app.route('/account.html', methods=["GET"])
 def account_page():
     return render_template("account.html")
 
-@app.route('/barChart.html')
+@app.route('/barChart.html', methods=["GET"])
 def barChart_page():
     return render_template("barChart.html")
 
-@app.route('/register&login.html')
+@app.route('/register&login.html', methods=["GET"])
 def register_login_page():
     return render_template("register&login.html")
 
-@app.route('/selection.html')
+@app.route('/selection.html', methods=["GET"])
 def selection_page():
     return render_template("selection.html")
 
-@app.route('/setting.html')
+@app.route('/setting.html', methods=["GET"])
 def setting_page():
     return render_template("setting.html")
 
-@app.route('/testBudget.html')
+@app.route('/testBudget.html', methods=["GET"])
 def testBudget_page():
     return render_template("testBudget.html")
 
-@app.route('/testPie.html')
+@app.route('/testPie.html', methods=["GET"])
 def testPie_page():
     return render_template("testPie.html")
 
-@app.route('/transfer.html')
+@app.route('/transfer.html', methods=["GET"])
 def transfer_page():
     return render_template("transfer.html")
 
-@app.route('/transferrecord.html')
+@app.route('/transferrecord.html', methods=["GET"])
 def transferrecord_page():
     return render_template("transferrecord.html")
 
