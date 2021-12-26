@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, render_template
 from pymongo import MongoClient, DESCENDING
 from flask_cors import CORS
 
@@ -22,6 +22,54 @@ app.register_blueprint(appRecordCategory)
 app.register_blueprint(appBudget)
 app.register_blueprint(appAccount)
 app.register_blueprint(appRecordChart)
+
+@app.route('/home.html')
+def home_page():
+    return render_template("home.html")
+
+@app.route('/category.html')
+def category_page():
+    return render_template("category.html")
+
+@app.route('/account.html')
+def account_page():
+    return render_template("account.html")
+
+@app.route('/barChart.html')
+def barChart_page():
+    return render_template("barChart.html")
+
+@app.route('/register&login.html')
+def register_login_page():
+    return render_template("register&login.html")
+
+@app.route('/selection.html')
+def selection_page():
+    return render_template("selection.html")
+
+@app.route('/setting.html')
+def setting_page():
+    return render_template("setting.html")
+
+@app.route('/testBudget.html')
+def testBudget_page():
+    return render_template("testBudget.html")
+
+@app.route('/testPie.html')
+def testPie_page():
+    return render_template("testPie.html")
+
+@app.route('/transfer.html')
+def transfer_page():
+    return render_template("transfer.html")
+
+@app.route('/transferrecord.html')
+def transferrecord_page():
+    return render_template("transferrecord.html")
+
+
+
+
 
 
 def printAvailableAPIs():
