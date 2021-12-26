@@ -23,6 +23,10 @@ app.register_blueprint(appBudget)
 app.register_blueprint(appAccount)
 app.register_blueprint(appRecordChart)
 
+@app.route('/')
+def index_page():
+    return "Hello!!"
+
 @app.route('/home.html')
 def home_page():
     return render_template("home.html")
