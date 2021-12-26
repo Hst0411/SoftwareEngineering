@@ -1,0 +1,248 @@
+<html lang="en">
+<head>
+    <title>記帳小幫手</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    <style>
+        * {
+            font-family: Microsoft JhengHei;
+        }
+        button {
+        margin: 5px;
+        background: #df5334;
+        }
+        .delete,#expenseorincome{
+            display: inline-block;
+        }
+        .transfer,.edit,.delete,.choosecalendar,.addexpense,.addincome,.yes,.no,.complete{
+            color: white;  
+            font-size: 5px;
+            width: 43px;
+            height: 40px;
+            font-weight: bolder;
+            border:0;           /*去邊框*/
+            border-radius: 10px;
+            cursor: pointer; /*可以指*/
+        }
+        .transfer:hover,.edit:hover,.delete:hover,.choosecalendar:hover,.add:hover,.addexpense:hover,
+        .addincome:hover,.yes:hover,.no:hover,.signout:hover,.complete:hover{
+            border:2px;
+            background-color: #db6937;
+            border-style: solid;
+        }
+        .choosecalendar{
+            width: 50px;
+        }
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 643px;
+        }
+        /* Set gray background color and 100% height */
+        .sidenav {
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+        .y {
+            background-color: orange;
+            color: black;
+            margin-bottom: 0;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bolder;
+        }
+        .y:hover {
+            background-color: red;
+        }
+        .dropdown-menu {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            width: 100%;
+            box-shadow: none;
+            position: relative;
+            text-align: center;
+            margin-bottom: 10px;
+            
+        }
+        .computer_img{
+            height:60px;
+            width:60px;
+            position: absolute;
+            left: 0px;
+            top:8px;
+        }
+        .signout{
+            height:45px;
+            width:60px;
+            position: absolute;
+            right: 30px;
+            top:8px;
+            color:white;
+            font-weight: bolder;
+            border:0;           /*去邊框*/
+            border-radius: 10px;
+            cursor: pointer; /*可以指*/
+        }
+        tr,th,td{
+            width: 130px;
+            height:40px;
+            border: 1px solid;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .add{
+            position: relative;
+            left: 1150px;
+            top: -50px;
+            color: white;
+            width: 80px;
+            height: 50px;
+            font-weight: bolder;
+            border:0;           /*去邊框*/
+            border-radius: 10px;
+            cursor: pointer; /*可以指*/
+        }
+        #expenseorincome{
+            position: relative;
+            left: 980px;
+            top: -110px;
+            text-align: center;
+            width: 150px;
+            height: 70px;
+            background-color: rgb(255, 238, 0);
+            border-radius: 10px;                 /*框的角*/
+            border: 1px solid;
+            /*box-shadow: 0 0px 50px rgba(0, 0, 0, 0.1); /*rgba的a為陰影部分*/
+        }
+        .addexpense,.addincome{
+            position: relative;
+            top:10px;
+        }
+        #expense_remind,#income_remind{
+            position: relative;
+            left: 450px;
+            top: 10px;
+            text-align: center;
+            width: 250px;
+            height: 130px;
+            font-weight: bolder;
+            background-color: rgb(255, 238, 0);
+            border-radius: 10px;                 /*框的角*/
+            border: 1px solid;
+            box-shadow: 0 0px 50px rgba(0, 0, 0, 0.1); /*rgba的a為陰影部分*/
+        }
+        .yes,.no{
+            margin-top: 50px;
+            width: 100px;
+            position: relative;
+            top: -10px;
+        }
+        .accounting_record{
+            position: relative;
+            height: 50px;
+        }
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+            .row.content {
+                height: auto;
+            }
+        }
+    </style>
+
+    <script type="text/javascript"  src="{{url_for('static',filename = 'transfer.js')}}"language="javascript">
+    </script>
+
+
+</head>
+<body>
+
+    <div class="container-fluid" style="background-color: yellow;" onmousedown="everytableclose()">
+        <h1 style="font-size: 35px;"><strong><span style="left: 50px;position: relative;">記帳小幫手</span></strong></h1>
+        <img src = "{{url_for('static',filename = 'computer.png')}}" class = "computer_img" style="z-index: 1;">
+        <button class = "signout" id = "signout" style="z-index: 1;">登出</button>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-2" style="padding:0; height: 100%;background-color:orange" onmousedown="everytableclose()">
+                <ul class="nav sidenav-nav">
+                    <li class="dropdown">
+                        <a href ="home.html" onclick="history.go(0)" style="padding:0;">
+                            <p class="y">首頁</p>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="selection.html" style="padding:0;">
+                            <p class="y">比較總收支狀況</p>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="category.html" style="padding:0;">
+                            <p class="y">類別設定</p>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="testbudget.html" style="padding:0;">
+                            <p class="y">預算</p>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="account.html" style="padding:0;">
+                            <p class="y">個人帳戶</p>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="setting.html" style="padding:0;">
+                            <p class="y">設定</p>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="setting.html" style="padding:0;">
+                            <p class="y">登出</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--此畫面主內容-->
+            <div class="col-sm-10">
+                <h1>轉帳</h1>
+                <form method="post" id="transfer" action="transfersave.php">
+                   			
+               
+                    <table style="width: 70%">
+            
+                    <tr style = "background:orange" id = "record">
+                            <td>寄錢帳戶</td>
+                            <td>收錢帳戶</td>
+                            <td>金額</td>
+                    </tr>
+                            
+                    <tr>    
+                            <td><input type="text" id="acoountname" name="acoountname"></td>
+                            <td><input type="text" id="acoountname2" name="acoountname2"></td>
+                            <td><input type="text" id="money" name="money"></td>
+                    </tr>
+                   
+                    </table>
+                    <button class="transfer"onclick="transfer()" type="button">完成轉帳</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="container-fluid text-center"></footer>
+
+</body>
+</html>

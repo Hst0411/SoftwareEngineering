@@ -1,0 +1,231 @@
+    <head>
+        <title>MoneyManger</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    
+        <style>
+            * {
+                font-family: Microsoft JhengHei;
+            }
+    
+            button {
+                margin: 5px;
+                background: #df5334;
+            }
+    
+            .view{
+                position: relative;
+                    background-color: red;
+                    color: rgb(0, 0, 0);
+                    width: 80px;
+                    height: 50px;
+                    font-weight: bolder;
+                    border:0;           /*去邊框*/
+                    border-radius: 10px;
+                    cursor: pointer; /*可以指*/
+            }
+    
+            .view:hover{
+                background-color: rgb(240, 100, 100);
+    
+            }
+    
+            /* Remove the navbar's default margin-bottom and rounded borders */
+            .navbar {
+                margin-bottom: 0;
+                border-radius: 0;
+                border: none;
+                background-color: dimgray;
+            }
+        
+            /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+            .row.content {
+                height: 643px
+            }
+        
+                /* Set gray background color and 100% height */
+            .sidenav {
+                background-color: #f1f1f1;
+                height: 100%;
+            }
+        
+            .y {
+                background-color: orange;
+                color: black;
+                margin-bottom: 0;
+                padding: 20px;
+                text-align: center;
+                font-size: 20px;
+                font-weight: bolder;
+            }
+            .y:hover {
+                background-color: red;
+            }
+            a {
+            text-decoration: none;
+        }
+    
+        a:hover {
+            text-decoration: none;
+        }
+    
+        .dropdown {
+            position: relative;
+        }
+    
+        .dropdown-menu {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            width: 100%;
+            box-shadow: none;
+            position: relative;
+            text-align: center;
+            margin-bottom: 10px;
+            
+        }
+            
+                /*size control for the computer img*/
+        .computer_img{
+            height:60px;
+            width:60px;
+            position: absolute;
+            left: 0px;
+            top:8px;
+        }
+    
+        .signout{
+            height:45px;
+            width:60px;
+            position: absolute;
+            left: 1300px;
+            top:8px;
+            color:white;
+            font-weight: bolder;
+            border:0;           /*去邊框*/
+            border-radius: 10px;
+            cursor: pointer; /*可以指*/
+        }
+                
+                .piechart{
+                    height:500px;
+                    width:400px;
+                    left: 100px;
+                    position: absolute;
+                    top:8px;
+                    color:white;
+                    font-weight: bolder;
+                    border:0;           /*去邊框*/
+                    border-radius: 10px;
+                    cursor: pointer; /*可以指*/
+                }
+
+                .barchart{
+                    height:500px;
+                    width:400px;
+                    left: 600px;
+                    position: absolute;
+                    top:8px;
+                    color:white;
+                    font-weight: bolder;
+                    border:0;           /*去邊框*/
+                    border-radius: 10px;
+                    cursor: pointer; /*可以指*/
+                }
+
+                .signout:hover,.piechart:hover,.barchart:hover{
+                    border:2px;
+                    background-color: #f8ab8a;
+                    border-style: solid;
+                }
+            
+                        /* Set black background color, white text and some padding */
+            footer {
+                background-color: #555;
+                color: white;
+                padding: 15px;
+            }
+    
+    
+            /* On small screens, set height to 'auto' for sidenav and grid */
+            @media screen and (max-width: 767px) {
+                .sidenav {
+                    height: auto;
+                    padding: 15px;
+                }
+    
+                .row.content {
+                    height: auto;
+                }
+            }
+        </style>
+    
+        <script type="text/javascript" src="{{url_for('static',filename = 'selection.js')}}"></script>
+    </head>
+
+    <body>
+        <div class="container-fluid" style="background-color:rgb(255, 251, 38)">
+            <h1 style="font-size: 35px;"><strong><span style="left: 50px;position: relative;">記帳小幫手</span></strong></h1>
+            <img src = "{{url_for('static',filename = 'computer.png')}}" class = "computer_img">
+            <button class = "signout" id = "signout" style="z-index: 1;">登出</button>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row content">
+                <nav>
+                    <div class="col-sm-2" style="padding:0; height: 100%; background-color:orange">
+    
+                        <ul class="nav sidenav-nav">
+                            <li class="dropdown">
+                                <a href="home.html" style="padding:0;">
+                                    <p class="y">首頁</p>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="selection.html" style="padding:0;">
+                                    <p class="y">比較總收支狀況</p>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="category.html" style="padding:0;">
+                                    <p class="y">類別設定</p>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="testBudget.html" style="padding:0;">
+                                    <p class="y">預算</p>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="account.html" style="padding:0;">
+                                    <p class="y">個人帳戶</p>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="setting.html" style="padding:0;">
+                                    <p class="y">設定</p>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="setting.html" style="padding:0;">
+                                    <p class="y">登出</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <!--此畫面主內容-->
+                <div class="col-sm-10">
+                    <div>
+                        <a href = "testPie.html"><button class = "piechart"><img src = "{{url_for('static',filename = 'pie-chart-683.png')}}"/> </button></a>
+                        <a href = "barChart.html"><button class = "barchart"><img src = "{{url_for('static',filename = 'bar-chart-676.png')}}"/> </button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
