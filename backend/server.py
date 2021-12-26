@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, render_template
 from pymongo import MongoClient, DESCENDING
 from flask_cors import CORS
+import os
 
 
 import config
@@ -86,12 +87,13 @@ def printAvailableAPIs():
             set(p.methods).intersection(basic_methods))))
     print("")
 
+myPort = int(os.environ.get('PORT', 5000))
 
 def main():
 
     print(mainDB.connect_db(config.host, config.db))
     printAvailableAPIs()
-    app.run(host="0.0.0.0", debug=True, port=33507)
+    app.run(host="0.0.0.0", debug=True, port=myPort)
 
 
 if __name__ == "__main__":
