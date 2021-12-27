@@ -42,7 +42,7 @@ $(document).ready(function () {
                 }
                 row.innerHTML += "<td id='transrecord'>"+ record +"</td><tr><button class='edit' onclick='account_edit(this)'>編輯</button>"+
                 "<button class='delete' onclick='account_remind(this)'>刪除</button>"+
-                "<a style='text-decoration:none;' href=transferrecord.html><button class='show' onclick='show_fransfer(this)'>轉帳紀錄</button></a></tr>";
+                "<a style='text-decoration:none;' href=transferrecord.html><button class='show' onclick='show_transfer(this)'>轉帳紀錄</button></a></tr>";
             }
         }
     });
@@ -57,7 +57,7 @@ function addacount(){
     "<td id='money'><input type='textbox' style='width:150px;height:26px;' placeholder='Ex : 500'></td>"+
     "<td id='transrecord'></td>"+
     "<tr><button class='edit' onclick='account_edit(this)'>編輯</button><button class='delete' onclick='account_remind(this)'>刪除</button>"+
-    "<a style='text-decoration:none;' href=transferrecord.html><button class='show' onclick='show_fransfer(this)'>轉帳紀錄</button></a></tr>";
+    "<a style='text-decoration:none;' href=transferrecord.html><button class='show' onclick='show_transfer(this)'>轉帳紀錄</button></a></tr>";
 }
 function account_remind(obj){
     document.getElementById("remind").style.display = "";
@@ -84,7 +84,6 @@ function account_delete(){
 function account_complete(obj){
     var account_name, account_money;
     obj.style.display="none";
-
     account_name = obj.parentNode.parentNode.cells[1].children[0].value;
     obj.parentNode.parentNode.cells[1].innerHTML = obj.parentNode.parentNode.cells[1].children[0].value;
 
@@ -95,7 +94,6 @@ function account_complete(obj){
         data = {
             "userID": "user001",
             "accountName": account_name,
-            "leftMoneyAmount": account_money
         }
         fetch('/account/insert-doc',
             {
@@ -125,12 +123,37 @@ function account_complete(obj){
         })
         editAccount = 1;
     }
+
+//轉帳紀錄transferrecord.html
+    /*$.ajax({
+        url: '/account/transfer/get-transferInfo?userID=user001&accountName=+'+account_name+'',
+        method: 'GET',
+        dataType: 'json',
+        success: function(transfer_data) {
+            for(var i=0;i<transfer_data.length;i++){
+                var table = document.getElementById("transfer_record_table");
+                var row = table.insertRow(table.row);   //增加row
+                row.style.background = "orange";
+                if(transfer_data[i].transferFromOrTo == "To"){
+                    row.innerHTML += "<td id='from'>"+ account_name +"</td>" +
+                    "<td id='to'>"+ transfer_data[i].targetAccountName +"</td>"+
+                    "<td id='money'>"+ transfer_data[i].transferMoneyAmount+"</td>";
+                }else if(transfer_data[i].transferFromOrTo == "From"){
+                    row.innerHTML += "<td id='from'>"+ transfer_data[i].targetAccountName +"</td>" +
+                    "<td id='to'>"+ account_name +"</td>"+
+                    "<td id='money'>"+ transfer_data[i].transferMoneyAmount+"</td>";
+                }
+            }
+        }
+    });*/
 }
 function account_edit(obj){
     editAccount = 1;
     var tmp = obj.parentNode.cells[1].innerHTML;
     obj.parentNode.cells[0].innerHTML = "<button class='complete' onclick=' account_complete(this)' style='width:65px;'>完成新增</button>";
     obj.parentNode.cells[1].innerHTML = "<input type='textbox' style='width:100px;height:23px;margin:7px;' value="+tmp+">";
-    tmp = obj.parentNode.cells[2].innerHTML;
-    obj.parentNode.cells[2].innerHTML = "<input type='textbox' style='width:100px;height:23px;margin:7px;' value="+tmp+">";
 }
+/*function show_transfer(obj){
+    console.log(obj.parentNode);
+    var data = document.getElementById("transfer_record");
+}*/

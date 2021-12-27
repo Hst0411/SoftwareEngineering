@@ -113,6 +113,7 @@ function edit_expense(obj){
     var tmp = obj.parentNode.cells[1].innerHTML;
     console.log($(obj.parentNode.cells[0]).attr("id"));
     oldExpenseName = $(obj.parentNode.cells[0]).attr("id");
+    console.log(oldExpenseName);
     obj.parentNode.cells[0].innerHTML = "<button class='complete' onclick='complete_expense(this)' style='width:65px;'>完成新增</button>";
     obj.parentNode.cells[1].innerHTML = "<input type='textbox' style='width:100px;height:23px;margin:7px;' value="+tmp+">";
 }
@@ -148,14 +149,26 @@ function complete_expense(obj){
                     window.alert("輸入不可為空白")
                 }
         })
+        console.log(data);
+        $.ajax({
+            url: '/recordCategory/get-docs?userID=user001&incomeOrExpense=支出',
+            method: 'GET',
+            dataType: 'json',
+            success: function(expense_data) {
+                console.log(expense_data);
+                //$(obj.parentNode).attr("id", expense_data[0]._id);
+            }
+        });
     }
     else{   //新增完後編輯
         var data;
-        console.log(typeof($(obj.parentNode).attr("id")));
+        console.log(oldExpenseName);
+        console.log(typeof(oldExpenseName));
         console.log(category_name);
+        console.log(typeof(category_name));
         data = {
             "id": "user001",
-            "old_name": $(obj.parentNode).attr("id"),
+            "old_name": oldExpenseName,
             "old_incomeOrExpense":"支出",
             "new_name": category_name
         }
@@ -167,6 +180,7 @@ function complete_expense(obj){
                 },
                 body: JSON.stringify(data)
         })
+        console.log(data);
         editExpense = 0;
     }
 }

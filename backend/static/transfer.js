@@ -21,34 +21,34 @@ function transfer(){
     }else{
         minute = date.getUTCMinutes();
     }
-    console.log(year);
+    console.log(typeof(year));
     console.log(month);
     console.log(day);
-    console.log(date);
+    console.log(hour-4);
     console.log(minute);
-
-    /*var data;
-        data = {
-            "userID": "user001",
-            "accountName": "我的錢包",
-            "transferFromOrTo": "From",
-            "targetAccountName": "中華郵政",
-            "transferDate": {
-                "year": 2021,
-                "month": 12,
-                "day": 25,
-                "hour": 20,
-                "minute": 10
+    console.log(typeof(document.getElementById("accountname").value));
+    var data;
+    data = {
+        "userID": "user001",
+        "accountName": document.getElementById("accountname").value,
+        "transferFromOrTo": "From",
+        "targetAccountName": document.getElementById("accountname2").value,
+        "transferDate": {
+            "year": parseInt(year),
+            "month": parseInt(month),
+            "day": parseInt(day),
+            "hour": parseInt(hour),
+            "minute": parseInt(minute)
+        },
+        "transferMoneyAmount": parseInt(document.getElementById("money").value)
+    }
+    fetch('/account/transfer/post-doc',
+        {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
             },
-            "transferMoneyAmount": 666
-        }
-        fetch('http://172.20.10.3:9000/account/transfer/post-doc',
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-        })*/
+            body: JSON.stringify(data)
+    })
     alert("轉帳成功!");
 }

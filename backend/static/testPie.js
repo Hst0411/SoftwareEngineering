@@ -1,6 +1,7 @@
 href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
 src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
 src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"
 var start_year='', start_month, start_day, dateSent_start, dateSent_end;
 var end_year='', end_month, end_day;
 var incomelength, expenselength;

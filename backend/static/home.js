@@ -33,7 +33,7 @@ $(document).ready(function () {
 });
 function GetExpenseData(){
     $.ajax({
-        url: '/record/get-docs?userID=user002&incomeOrExpense=支出&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
+        url: '/record/get-docs?userID=user001&incomeOrExpense=支出&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
         method: 'GET',
         dataType: 'json',
         success: function(expense_data) {
@@ -69,7 +69,7 @@ function GetExpenseData(){
 }
 function GetIncomeData(){
     $.ajax({
-        url: '/record/get-docs?userID=user002&incomeOrExpense=收入&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
+        url: '/record/get-docs?userID=user001&incomeOrExpense=收入&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
         method: 'GET',
         dataType: 'json',
         success: function(income_data) {
@@ -231,7 +231,7 @@ function delete_expense(){
 	table.deleteRow(expenseNO);         //刪除第幾列
     document.getElementById("expense_remind").style.display = "none";
     $.ajax({
-        url: '/record/delete-doc?id='+ expenseID + '&userID=user002',
+        url: '/record/delete-doc?id='+ expenseID + '&userID=user001',
         type: 'DELETE',
         success: function(result) {
             console.log(result);
@@ -258,11 +258,12 @@ function add_income(){
 }
 //刪除收入
 function delete_income(){
+    console.log(incomeID);
     var table=document.getElementById("income_table");
 	table.deleteRow(incomeNO);                 //刪除第幾列
     document.getElementById("income_remind").style.display = "none";
     $.ajax({
-        url: '/record/delete-doc?id='+ incomeID + '&userID=user002',
+        url: '/record/delete-doc?id='+ incomeID + '&userID=user001',
         type: 'DELETE',
         success: function(result) {
             console.log(result);
@@ -283,6 +284,7 @@ function income_remind(obj){
     close=1;    //框框要關了
     incomeNO = obj.parentNode.rowIndex;
     incomeID = $(obj.parentNode.children[0]).attr("id");
+    console.log(incomeID);
 }
 //取消提醒
 function cancel(){
@@ -438,7 +440,7 @@ function complete_expense(obj){
     if(editExpense == 0){   //f5後編輯
         var data;
         data = {
-            "userID": "user002",
+            "userID": "user001",
             "accountName": accountName,
             "budgetName": budgetName,
             "category": category,
@@ -466,7 +468,7 @@ function complete_expense(obj){
         })
         console.log(data);
         $.ajax({
-            url: '/record/get-docs?userID=user002&incomeOrExpense=支出&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
+            url: '/record/get-docs?userID=user001&incomeOrExpense=支出&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
             method: 'GET',
             dataType: 'json',
             success: function(expense_data) {
@@ -483,7 +485,7 @@ function complete_expense(obj){
         var data;
         data = {
             "id": expenseID,
-            "userID": "user002",
+            "userID": "user001",
             "new_name": name,
             "new_category": category,
             "new_date":{
@@ -537,10 +539,11 @@ function complete_income(obj){
     else{
         time[1] = obj.parentNode.parentNode.cells[3].innerHTML[3] + obj.parentNode.parentNode.cells[3].innerHTML[4];
     }
+    console.log(typeof(moneyAmount));
     if(editIncome == 0){    //f5後編輯
         var data;
         data = {
-            "userID": "user002",
+            "userID": "user001",
             "accountName": accountName,
             "budgetName": null,
             "category": category,
@@ -565,7 +568,7 @@ function complete_income(obj){
         })
         console.log(data);
         $.ajax({
-            url: '/record/get-docs?userID=user002&incomeOrExpense=收入&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
+            url: '/record/get-docs?userID=user001&incomeOrExpense=收入&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
             method: 'GET',
             dataType: 'json',
             success: function(income_data) {
@@ -581,7 +584,7 @@ function complete_income(obj){
         var data;
         data = {
             "id": incomeID,
-            "userID": "user002",
+            "userID": "user001",
             "new_name": null,
             "new_category": category,
             "new_date":{
