@@ -72,7 +72,7 @@ def account_revise(userID, old_accountName, new_accountName):
 
 def account_delete(userID, accountName):
     mainDB.DB.get_collection(config.recordCol).update_many(
-        {"userID": userID, "accountName": accountName}, {"$set": {"accountName": None}})
+        {"userID": userID, "accountName": accountName}, {"$set": {"accountName": accountName + "（已刪除）"}})
 
 
 #傳入舊名字做為索引(新舊一樣就都傳舊名字)

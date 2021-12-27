@@ -26,31 +26,21 @@ def insert_doc(userID, accountName, leftMoneyAmount):
 
 
 # 更新帳戶資訊
-def update_doc(id, userID, accountName, leftMoneyAmount):
+def update_doc(id, userID, accountName):
     query = {
         "_id": id,
         "userID": userID
     }
-    newValue = {
-        "accountName": accountName,
-        #"leftMoneyAmount": leftMoneyAmount
-    }
-    # 更新transferRecord、record名稱
     old_accountName = mainDB.DB.get_collection(config.accountCol).find_one(query)["accountName"]
     query2 = {
         "userID": userID,
         "transferRecord.targetAccountName": old_accountName
     }
-    """
-    for i in get_accountNames(userID):
-        temp_ac = get_oneAccountInfo(userID, i)
-        for item in temp_ac:
-            if item == old_accountName:
-                mainDB.DB.get_collection(config.accountCol).update_many(query2, {"$set": {"transferRecord.$.targetAccountName": accountName}})
-    """
-    mainDB.DB.get_collection(config.accountCol).update_many(query2, {"$set": {"transferRecord.$.targetAccountName": accountName}})
+    # 帳戶相關紀錄變更
+    mainDB.DB.get_collection(config.accountCol).update_many(query2,
+         {"$set": {"transferRecord.$[elem].targetAccountName": accountName}}, array_filters = [{"elem.targetAccountName": old_accountName}])
     recordDB.account_revise(userID, old_accountName, accountName)
-    return mainDB.DB.get_collection(config.accountCol).update_one(query, {"$set": newValue})
+    return mainDB.DB.get_collection(config.accountCol).update_one(query, {"$set": {"accountName": accountName}})
 
 
 # 刪除帳戶
@@ -60,8 +50,13 @@ def delete_doc(id, userID):
         "userID": userID
     }
     accountName = mainDB.DB.get_collection(config.accountCol).find_one(query)["accountName"]
-    #目前刪除此帳戶的話，別的帳戶的轉帳紀錄的此名字會出問題
-    #待解決
+    query2 = {
+        "userID": userID,
+        "transferRecord.targetAccountName": accountName
+    }
+    # 帳戶相關紀錄變更
+    mainDB.DB.get_collection(config.accountCol).update_many(query2,
+         {"$set": {"transferRecord.$[elem].targetAccountName": accountName + "（已刪除）"}}, array_filters = [{"elem.targetAccountName": accountName}])
     recordDB.account_delete(userID, accountName)
     return mainDB.DB.get_collection(config.accountCol).delete_one(query)
 
@@ -119,6 +114,8 @@ def record_revise_doc_decrease(userID, old_accountName, old_moneyAmount):
         "accountName": old_accountName
     }
     mainDB.DB.get_collection(config.accountCol).update_one(query, {"$inc": {"leftMoneyAmount": -old_moneyAmount}})
+
+
 
 def record_revise_doc_increase(userID, new_accountName, new_moneyAmount):
     query = {
