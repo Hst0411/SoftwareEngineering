@@ -24,7 +24,10 @@ def insert_doc():
                               date, moneyAmount, accountName, budgetName)
 
     # section for revise account collection
-    accountDB.record_revise_doc_decrease(userID, accountName, moneyAmount)
+    if incomeOrExpense == "支出":
+        accountDB.record_revise_doc_decrease(userID, accountName, moneyAmount)
+    else:
+        accountDB.record_revise_doc_increase(userID, accountName, moneyAmount)
     # section for revise budget collection
     overSpend = budgetDB.record_revise_doc_increase(
         userID, budgetName, moneyAmount)
@@ -64,6 +67,17 @@ def update_doc():
     new_accountName = new_para["accountName"]
     new_budgetName = new_para["budgetName"]
 
+    # 根據支出或收入調整傳入帳戶的參數
+    if before_update_doc["incomeOrExpense"] == "支出":
+        decrease_accountName_para = new_accountName
+        decrease_moneyAmount_para = new_moneyAmount
+        increase_accountName_para = old_accountName
+        increase_moneyAmount_para = old_moneyAmount
+    else:
+        decrease_accountName_para = old_accountName
+        decrease_moneyAmount_para = old_moneyAmount
+        increase_accountName_para = new_accountName
+        increase_moneyAmount_para = new_moneyAmount
     # 回傳給前端是否超支的變數
     overSpend = False
     # 利用舊資料和新資料檢查是否有修改金額、個人帳戶、預算來執行相對應的個人帳戶及預算項目的修改
@@ -72,16 +86,16 @@ def update_doc():
             print("有修改金額、有修改個人帳戶")
             # section for revise account collection
             accountDB.record_revise_doc_decrease(
-                userID, old_accountName, old_moneyAmount)
+                userID, decrease_accountName_para, decrease_moneyAmount_para)
             accountDB.record_revise_doc_increase(
-                userID, new_accountName, new_moneyAmount)
+                userID, increase_accountName_para, increase_moneyAmount_para)
         else:
             print("有修改金額、無修改個人帳戶")
             # section for revise account collection
             accountDB.record_revise_doc_decrease(
-                userID, old_accountName, old_moneyAmount)
+                userID, decrease_accountName_para, decrease_moneyAmount_para)
             accountDB.record_revise_doc_increase(
-                userID, old_accountName, new_moneyAmount)
+                userID, increase_accountName_para, increase_moneyAmount_para)
 
         if old_budgetName != new_budgetName:
             print("有修改金額、有修改個人預算")
@@ -102,9 +116,9 @@ def update_doc():
             print("無修改金額、有修改個人帳戶")
             # section for revise account collection
             accountDB.record_revise_doc_decrease(
-                userID, old_accountName, old_moneyAmount)
+                userID, decrease_accountName_para, decrease_moneyAmount_para)
             accountDB.record_revise_doc_increase(
-                userID, new_accountName, old_moneyAmount)
+                userID, increase_accountName_para, increase_moneyAmount_para)
 
         if old_budgetName != new_budgetName:
             print("無修改金額、有修改個人預算")
@@ -126,9 +140,13 @@ def delete_doc():
     userID = request.args.get("userID")
 
     res = recordDB.delete_doc(id, userID)
+
     # section for revise account collection
-    accountDB.record_revise_doc_increase(
-        userID, res["accountName"], res["moneyAmount"])
+    if res["incomeOrExpense"] == "支出":
+        accountDB.record_revise_doc_increase(userID, res["accountName"], res["moneyAmount"])
+    else:
+        accountDB.record_revise_doc_decrease(userID, res["accountName"], res["moneyAmount"])
+
     # section for revise budget collection
     # 需檢查res是否為空?
     budgetDB.record_revise_doc_decrease(
