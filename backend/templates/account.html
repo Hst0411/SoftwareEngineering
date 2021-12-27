@@ -116,7 +116,7 @@
         #remind{
             position: relative;
             left: 400px;
-            top: -100px;
+            top: -280px;
             text-align: center;
             width: 250px;
             height: 130px;
@@ -152,7 +152,7 @@
 
     <div class="container-fluid" style="background-color: yellow;" onmousedown="everytableclose()">
         <h1 style="font-size: 35px;"><strong><span style="left: 50px;position: relative;">記帳小幫手</span></strong></h1>
-        <img src = "{{url_for('static',filename = 'computer.png')}}" class = "computer_img" style="z-index: 1;">
+        <img src = "computer.png" class = "computer_img" style="z-index: 1;">
         <button class = "signout" id = "signout" style="z-index: 1;">登出</button>
     </div>
 
@@ -204,7 +204,7 @@
                 <a href="transfer.html" style="padding:0;">
                 <button class = "transfer" id = "addacount">轉帳</button>
                 </a>
-                <table class="table" id="account_table" style="width: 70%; top:-30px;position:relative">
+                <table class="table" id="account_table" style="width: 100%; top:-30px;left:-50;position:relative">
                     <tbody>
                         <tr style = "background:orange" id = "account">
                             <th></th>
