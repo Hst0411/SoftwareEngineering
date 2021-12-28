@@ -26,9 +26,7 @@ def update_doc():
     id = body.get("id")
     userID = body.get("userID")
     accountName = body.get("accountName")
-    #leftMoneyAmount = body.get("leftMoneyAmount")
-    res = accountDB.update_doc(id, userID, accountName, leftMoneyAmount=None)
-
+    res = accountDB.update_doc(id, userID, accountName)
     if res.acknowledged:
         return "Updated", 200
     return "Error", 500
