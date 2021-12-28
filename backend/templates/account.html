@@ -15,7 +15,7 @@
             margin: 5px;
             background: #df5334;
         }
-        .show,.transfer,.complete,.delete,.edit,.addacount,.yes,.no{
+        .show,.transfer,.complete,.delete,.edit,.addaccount,.yes,.no{
             color: white;  
             font-size: 5px;
             width: 43px;
@@ -25,7 +25,7 @@
             border-radius: 10px;
             cursor: pointer; /*可以指*/
         }
-        .show:hover,.transfer:hover,.complete:hover,.delete:hover,.edit:hover,.addacount:hover,.yes:hover,.no:hover,.signout:hover{
+        .show:hover,.transfer:hover,.complete:hover,.delete:hover,.edit:hover,.addaccount:hover,.yes:hover,.no:hover,.signout:hover{
             border:2px;
             background-color: #db6937;
             border-style: solid;
@@ -207,14 +207,14 @@
             <div class="col-sm-10">
                 <h1>帳戶</h1>
                 <div class='accountrecord'>
-                    <button class = "addacount" id = "addacount" onclick="addacount()">新增</button>
+                    <button class = "addaccount" id = "addaccount" onclick="addaccount()">新增</button>
                     <a href="transfer.html" style="padding:0;">
-                    <button class = "transfer" id = "addacount">轉帳</button>
+                    <button class = "transfer" id = "addaccount">轉帳</button>
                     </a>
-                    <table class="table" id="account_table" style="width: 90%; top:-30px;left:-50;position:relative">
+                    <table class="table" id="account_table" style="top:-30px;left:-50;position:relative">
                         <tbody>
                             <tr style = "background:orange" id = "account">
-                                <th></th>
+                                <th>帳戶</th>
                                 <th>帳戶名稱</th>
                                 <th>剩餘金額</th>
                                 <th>轉帳紀錄</th>

@@ -17,7 +17,7 @@ $(document).ready(function () {
             for(var i = 0; i < data.length; i++){
                 var s = new Date(data[i].startDate);
                 var e = new Date(data[i].endDate);
-                console.log(s);
+                console.log(typeof(data[i].overSpend));
                 console.log(s.getDate());
                 var table = document.getElementById("budget_table");
                 var row = table.insertRow(table.row);   //增加row
@@ -26,10 +26,18 @@ $(document).ready(function () {
                 "<td id='budgetName'>" + data[i].budgetName + "</td>" +
                 "<td id='startDate'>" + s.getFullYear() + "/"+ (s.getMonth() + 1) +"/" + s.getDate() + "</td>"+
                 "<td id='endDate'>" + e.getFullYear() + "/"+ (e.getMonth()+1)+"/" + e.getDate() + "</td>" +
-                "<td id='targetMoneyAmount'>" + data[i].targetMoneyAmount + "</td>" +
-                "<td id='usedMoneyAmount'>" + data[i].usedMoneyAmount + "</td>" +
-                "<tr><button class='edit' onclick='edit_budget(this)'>編輯</button>" +
-                "<button class='delete' onclick='budget_remind(this)'>刪除</button></tr>";
+                "<td id='targetMoneyAmount'>" + data[i].targetMoneyAmount + "</td>";
+                if(data[i].overSpend == true){
+                    row.innerHTML+="<td id='overSpend'><span style='color:red;font-size: 18px;font-weight: bolder;'>是</span></td>" +
+                    "<td id='usedMoneyAmount'>" + data[i].usedMoneyAmount + "</td>" +
+                    "<tr><button class='edit' onclick='edit_budget(this)'>編輯</button>" +
+                    "<button class='delete' onclick='budget_remind(this)'>刪除</button></tr>";
+                }else{
+                    row.innerHTML+="<td id='overSpend'>否</td>" +
+                    "<td id='usedMoneyAmount'>" + data[i].usedMoneyAmount + "</td>" +
+                    "<tr><button class='edit' onclick='edit_budget(this)'>編輯</button>" +
+                    "<button class='delete' onclick='budget_remind(this)'>刪除</button></tr>";
+                }
             }
         }
     });
@@ -45,6 +53,7 @@ function add_budget() {
         "<td id='endDate'><input type='date' style='width:130px;height:27px;margin:7px;'></td>" +
         "<td id='targetMoneyAmount'><input type='textbox' style='width:100px;height:27px;margin:7px' placeholder='Ex : 10000'></td>" +
         "<td id ='usedMoneyAmount'></td>"+
+        "<td id ='overSpend'></td>" +
         "<tr><button class='edit' onclick='edit_budget(this)'>編輯</button>" +
         "<button class='delete' onclick='budget_remind(this)'>刪除</button></tr>";
 }

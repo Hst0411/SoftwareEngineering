@@ -1,7 +1,7 @@
 <!Doctype html>
 <html lang="en">
     
-    <title>budget</title>
+    <title>記帳小幫手</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -36,7 +36,7 @@
 
             .add_budget{
                 position: relative;
-                left: 805px;
+                left: 955px;
                 top: -5px;
                 color: white;
                 width: 80px;
@@ -82,42 +82,18 @@
                 height: 100%;
             }
     
-        .y {
-            background-color: orange;
-            color: black;
-            margin-bottom: 0;
-            padding: 20px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bolder;
-        }
-        .y:hover {
-            background-color: red;
-        }
-        .dropdown-menu {
-            margin: 0;
-            border: none;
-            border-radius: 0;
-            padding: 0;
-            width: 100%;
-            box-shadow: none;
-            position: relative;
-            text-align: center;
-            margin-bottom: 10px;
-            
-        }
-            a {
-                text-decoration: none;
+            .y {
+                background-color: orange;
+                color: black;
+                margin-bottom: 0;
+                padding: 20px;
+                text-align: center;
+                font-size: 20px;
+                font-weight: bolder;
             }
-    
-            a:hover {
-                text-decoration: none;
+            .y:hover {
+                background-color: red;
             }
-    
-            .dropdown {
-                position: relative;
-            }
-    
             .dropdown-menu {
                 margin: 0;
                 border: none;
@@ -128,27 +104,51 @@
                 position: relative;
                 text-align: center;
                 margin-bottom: 10px;
-    
+                
+            }
+            a {
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: none;
+            }
+
+            .dropdown {
+                position: relative;
+            }
+
+            .dropdown-menu {
+                margin: 0;
+                border: none;
+                border-radius: 0;
+                padding: 0;
+                width: 100%;
+                box-shadow: none;
+                position: relative;
+                text-align: center;
+                margin-bottom: 10px;
+
             }
 
             .budget_record{
-            position: relative;
-            left: 40px;
-            height: 50px;
-            display: inline-block;
+                position: relative;
+                left: 40px;
+                height: 50px;
+                display: inline-block;
             }
 
             .signout{
-            height:45px;
-            width:60px;
-            position: absolute;
-            left: 1300px;
-            top:8px;
-            color:white;
-            font-weight: bolder;
-            border:0;           /*去邊框*/
-            border-radius: 10px;
-            cursor: pointer; /*可以指*/
+                height:45px;
+                width:60px;
+                position: absolute;
+                left: 1300px;
+                top:8px;
+                color:white;
+                font-weight: bolder;
+                border:0;           /*去邊框*/
+                border-radius: 10px;
+                cursor: pointer; /*可以指*/
             }
 
             tr,th,td{
@@ -160,32 +160,32 @@
 
             #budget_remind, #complete_remind{
                 position: relative;
-            left: 450px;
-            top: 100px;
-            text-align: center;
-            width: 250px;
-            height: 130px;
-            font-weight: bolder;
-            background-color: rgb(255, 238, 0);
-            border-radius: 10px;                 /*框的角*/
-            border: 1px solid;
-            box-shadow: 0 0px 50px rgba(0, 0, 0, 0.1); /*rgba的a為陰影部分*/
-        }
-    
+                left: 450px;
+                top: 100px;
+                text-align: center;
+                width: 250px;
+                height: 130px;
+                font-weight: bolder;
+                background-color: rgb(255, 238, 0);
+                border-radius: 10px;                 /*框的角*/
+                border: 1px solid;
+                box-shadow: 0 0px 50px rgba(0, 0, 0, 0.1); /*rgba的a為陰影部分*/
+            }
+
             /* Set black background color, white text and some padding */
             footer {
                 background-color: #555;
                 color: white;
                 padding: 15px;
             }
-    
+
             /* On small screens, set height to 'auto' for sidenav and grid */
             @media screen and (max-width: 767px) {
                 .sidenav {
                     height: auto;
                     padding: 15px;
                 }
-    
+
                 .row.content {
                     height: auto;
                 }
@@ -252,8 +252,8 @@
                 </div>
 
                 <div class = "budget_record">
-                    <button class = "add_budget" onclick = "add_budget()">新增預算</button>
                     <table class = "table" id = "budget_table">
+                        <button class = "add_budget" onclick = "add_budget()">新增預算</button>
                         <tbody>
                             <tr style = "background:rgb(199, 253, 255)" id = "budget">
                                 <th style = "background-color:rgb(143, 255, 218); font-size : 18px">預算</th>
@@ -261,6 +261,7 @@
                                 <th>起始日期</th>
                                 <th>結束日期</th>
                                 <th>預算</th>
+                                <th>是否超支</th>
                                 <th>已支出金額</th>
                                 <th></th>
                             </tr>

@@ -21,8 +21,8 @@ $(document).ready(function () {
                 if(account_data[i].transferRecord.length != 0){
                     for(var j = 0; j < account_data[i].transferRecord.length - 1; j++){
                         if(account_data[i].transferRecord[j].transferFromOrTo == "From"){
-                            record += account_data[i].accountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
-                            account_data[i].transferRecord[j].targetAccountName+" "+account_data[i].transferRecord[j].transferDate +"<br>";
+                            record += account_data[i].transferRecord[j].targetAccountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
+                            account_data[i].accountName+" "+account_data[i].transferRecord[j].transferDate +"<br>";
                         }
                         else if(account_data[i].transferRecord[j].transferFromOrTo == "To"){
                             record += account_data[i].accountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
@@ -31,8 +31,8 @@ $(document).ready(function () {
                     }
                     for(var j = account_data[i].transferRecord.length - 1; j < account_data[i].transferRecord.length; j++){
                         if(account_data[i].transferRecord[j].transferFromOrTo == "From"){
-                            record += account_data[i].accountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
-                            account_data[i].transferRecord[j].targetAccountName+" "+account_data[i].transferRecord[j].transferDate;
+                            record += account_data[i].transferRecord[j].targetAccountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
+                            account_data[i].accountName+" "+account_data[i].transferRecord[j].transferDate;
                         }
                         else if(account_data[i].transferRecord[j].transferFromOrTo == "To"){
                             record += account_data[i].accountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
@@ -41,14 +41,14 @@ $(document).ready(function () {
                     }
                 }
                 row.innerHTML += "<td id='transrecord'>"+ record +"</td><tr><button class='edit' onclick='account_edit(this)'>編輯</button>"+
-                "<button class='delete' onclick='account_remind(this)'>刪除</button>"+
-                "<a style='text-decoration:none;' href=transferrecord.html><button class='show' onclick='show_transfer(this)'>轉帳紀錄</button></a></tr>";
+                "<button class='delete' onclick='account_remind(this)'>刪除</button></tr>";
+                //"<a style='text-decoration:none;' href=transferrecord.html><button class='show' onclick='show_transfer(this)'>轉帳紀錄</button></a></tr>";
             }
         }
     });
 });
 
-function addacount(){
+function addaccount(){
     var table = document.getElementById("account_table");
     var row = table.insertRow(table.row);   //增加row
     row.style.background = "#FFD2D2";
@@ -56,8 +56,8 @@ function addacount(){
     "<td id='accountname'><input type='textbox' style='width:150px;height:26px;' placeholder='Ex : 悠遊卡'></td>" +
     "<td id='money'><input type='textbox' style='width:150px;height:26px;' placeholder='Ex : 500'></td>"+
     "<td id='transrecord'></td>"+
-    "<tr><button class='edit' onclick='account_edit(this)'>編輯</button><button class='delete' onclick='account_remind(this)'>刪除</button>"+
-    "<a style='text-decoration:none;' href=transferrecord.html><button class='show' onclick='show_transfer(this)'>轉帳紀錄</button></a></tr>";
+    "<tr><button class='edit' onclick='account_edit(this)'>編輯</button><button class='delete' onclick='account_remind(this)'>刪除</button></tr>";
+    //"<a style='text-decoration:none;' href=transferrecord.html><button class='show' onclick='show_transfer(this)'>轉帳紀錄</button></a></tr>";
 }
 function account_remind(obj){
     document.getElementById("remind").style.display = "";
@@ -94,6 +94,7 @@ function account_complete(obj){
         data = {
             "userID": "user001",
             "accountName": account_name,
+            "leftMoneyAmount": parseInt(account_money)
         }
         fetch('/account/insert-doc',
             {
@@ -149,9 +150,11 @@ function account_complete(obj){
 }
 function account_edit(obj){
     editAccount = 1;
-    var tmp = obj.parentNode.cells[1].innerHTML;
     obj.parentNode.cells[0].innerHTML = "<button class='complete' onclick=' account_complete(this)' style='width:65px;'>完成新增</button>";
+    var tmp = obj.parentNode.cells[1].innerHTML;
     obj.parentNode.cells[1].innerHTML = "<input type='textbox' style='width:100px;height:23px;margin:7px;' value="+tmp+">";
+    tmp = obj.parentNode.cells[2].innerHTML;
+    obj.parentNode.cells[2].innerHTML = "<input type='textbox' style='width:100px;height:23px;margin:7px;' value="+tmp+">"
 }
 /*function show_transfer(obj){
     console.log(obj.parentNode);

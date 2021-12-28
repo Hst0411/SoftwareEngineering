@@ -24,20 +24,20 @@ function transfer(){
     console.log(typeof(year));
     console.log(month);
     console.log(day);
-    console.log(hour-4);
+    console.log(hour);
     console.log(minute);
     console.log(typeof(document.getElementById("accountname").value));
     var data;
     data = {
         "userID": "user001",
-        "accountName": document.getElementById("accountname").value,
+        "accountName": document.getElementById("accountname2").value,
         "transferFromOrTo": "From",
-        "targetAccountName": document.getElementById("accountname2").value,
+        "targetAccountName": document.getElementById("accountname").value,
         "transferDate": {
             "year": parseInt(year),
             "month": parseInt(month),
             "day": parseInt(day),
-            "hour": parseInt(hour),
+            "hour": parseInt(hour+8),
             "minute": parseInt(minute)
         },
         "transferMoneyAmount": parseInt(document.getElementById("money").value)
