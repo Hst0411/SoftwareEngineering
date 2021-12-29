@@ -85,12 +85,12 @@ function draw_bar() {
     // create first series with mapped data
     series = chart.column(firstSeriesData);
     series.xPointPosition(0.6);
-    setupSeries(series, "支出");
+    setupSeries(series, "收入");
 
     // create second series with mapped data
     series = chart.column(secondSeriesData);
     series.xPointPosition(0.395);
-    setupSeries2(series, "收入");
+    setupSeries2(series, "支出");
 
 
 
