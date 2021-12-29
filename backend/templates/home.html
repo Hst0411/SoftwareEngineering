@@ -135,7 +135,7 @@
 
         .add {
             position: relative;
-            left: 1150px;
+            left: 92%;
             top: -50px;
             color: white;
             width: 80px;
@@ -222,7 +222,7 @@
     <!--左邊目錄選單-->
     <div class="container-fluid">
         <div class="row content">
-            <div class="col-sm-2" style="padding:0; height: 100%;background-color:orange"
+            <div class="col-sm-2" style="position:relative;padding:0;height:100%;background-color:orange;"
                 onmousedown="everytableclose()">
                 <ul class="nav sidenav-nav">
                     <li class="dropdown">
@@ -272,14 +272,14 @@
                 <div class="calendar" style="display: inline-block;">
                     <input id="date" type="date" style="height:38px;">
                     <button onclick="calendar()" class="choosecalendar">選擇</button>
-                    <span id="todaydate" style="position: relative;left: 300px;top:10px;font-size: 28px;"></span>
                 </div>
                 <!--記帳紀錄-->
                 <div class="accounting_record" onmousedown="everytableclose()">
                     <!--帳目記錄日期-->
-                    <button class="add" id="add" onclick="add()">記一筆</button>
                     <table class="table" id="expense_table" onmousedown="everytableclose()"
                         style="top:-30px;position:relative">
+                        <div id="todaydate" style="position: absolute;left: 40%;top:-40px;font-size: 28px;"></div>
+                        <button class="add" id="add" onclick="add()">記一筆</button>
                         <tbody>
                             <tr style="background:#FFD2D2;" id="expense">
                                 <th style="background-color:red;color: gold; font-size: 18px;">支出</th>

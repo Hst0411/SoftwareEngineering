@@ -104,7 +104,7 @@
             height:45px;
             width:60px;
             position: absolute;
-            left: 1300px;
+            right: 30px;
             top:8px;
             color:white;
             font-weight: bolder;
@@ -200,13 +200,12 @@
                 <div class = "col-sm-6" id = "container2" style="height: 80%"></div>
             </div>
 
-            <div class = "col-sm-8" style = "left: 220px">
+            <div class = "col-sm-8" style = "position:relative;left: 10%">
                 <div class = "col-sm-6">開始時間: <input type='date' id='startDate'></div>
-                <div class = "col-sm-6">結束時間: <input type='date' id='endDate'></div>
-            </div>
-
-            <div class = "col-sm-2" style = "left: -480px; top: 40px; position: relative;">
-                <button class = "view" onclick = "work()">查詢</button>
+                <div style = "position: absolute;left:35%;top:-5px">
+                    <button class = "view" onclick = "work()">查詢</button>
+                </div>
+                <div class = "col-sm-6" style="position: relative;left:100px">結束時間: <input type='date' id='endDate'></div>
             </div>
         </div>
 

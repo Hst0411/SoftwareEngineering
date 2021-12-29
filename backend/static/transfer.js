@@ -10,14 +10,14 @@ function transfer(){
     day = date.getDate();
     month = date.getMonth() + 1;
     year = date.getFullYear();
-
-    if(date.getUTCHours() < 10){
-        hour = "0" + date.getUTCHours();
+    console.log(date.getHours())
+    if(date.getHours() < 10){
+        hour = "0" + date.getHours();
     }else{
-        hour = date.getUTCHours();
+        hour = date.getHours();
     }
     if(date.getUTCMinutes() < 10){
-        minute = "0" + date.getUTCMinutes();
+        minute = "0" + date.getMinutes();
     }else{
         minute = date.getUTCMinutes();
     }
@@ -26,8 +26,9 @@ function transfer(){
     console.log(day);
     console.log(hour);
     console.log(minute);
-    console.log(typeof(document.getElementById("accountname").value));
     var send = document.getElementById("accountname").value
+    var from_account = document.getElementById("accountname2").value;
+    var to_account = document.getElementById("accountname").value;
     var account_money;
     var send_money;
     $.ajax({
@@ -41,21 +42,25 @@ function transfer(){
                 }
             }
             send_money = parseInt(document.getElementById("money").value);
+            console.log(account_money);
+            console.log(send_money);
+            console.log(document.getElementById("accountname").value);
+            console.log(document.getElementById("accountname2").value);
             if(account_money >= send_money){
                 var data;
                 data = {
                     "userID": "user001",
-                    "accountName": document.getElementById("accountname2").value,
+                    "accountName": from_account,
                     "transferFromOrTo": "From",
-                    "targetAccountName": document.getElementById("accountname").value,
+                    "targetAccountName": to_account,
                     "transferDate": {
                         "year": parseInt(year),
                         "month": parseInt(month),
                         "day": parseInt(day),
-                        "hour": parseInt(hour+8),
+                        "hour": parseInt(hour),
                         "minute": parseInt(minute)
                     },
-                    "transferMoneyAmount": parseInt(document.getElementById("money").value)
+                    "transferMoneyAmount": parseInt(send_money)
                 }
                 fetch('/account/transfer/post-doc',
                     {
@@ -66,6 +71,7 @@ function transfer(){
                         body: JSON.stringify(data)
                 })
                 alert("轉帳成功!");
+                console.log(data);
             }else{
                 alert("轉帳金額不可高於帳戶金額!!!")
             }

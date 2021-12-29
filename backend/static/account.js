@@ -10,6 +10,7 @@ $(document).ready(function () {
         method: 'GET',
         dataType: 'json',
         success: function(account_data) {
+            console.log(account_data);
             for(var i = 0; i < account_data.length; i++){
                 var record = "";
                 var table = document.getElementById("account_table");
