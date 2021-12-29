@@ -57,9 +57,13 @@ function GetExpenseData(){
                 "<td id='name'>" + expense_data[i].name + "</td>" +
                 "<td id='price'>" + expense_data[i].moneyAmount + "</td>"+
                 "<td id='account'>" + expense_data[i].accountName + "</td>"+
-                "<td id='type'>" + expense_data[i].category + "</td>" +
-                "<td id='budget'>" + expense_data[i].budgetName + "</td>" +
-                "<td id='time'>" + hr + ":" + min + "</td>" +
+                "<td id='type'>" + expense_data[i].category + "</td>";
+                if(expense_data[i].budgetName == null){
+                    row.innerHTML+= "<td id='budget'>無</td>";
+                }else{
+                    row.innerHTML+= "<td id='budget'>" + expense_data[i].budgetName + "</td>";
+                }
+                row.innerHTML+= "<td id='time'>" + hr + ":" + min + "</td>" +
                 "<tr><button class='edit' onclick='edit_expense(this)'>編輯</button>" +
                 "<button class='delete' onclick='expense_remind(this)'>刪除</button></tr>";
             }
@@ -144,6 +148,9 @@ function GetBudget(){
                 option.appendChild(document.createTextNode(budget_data[i]));
                 select.appendChild(option);
             }
+            var option = document.createElement("option");
+            option.appendChild(document.createTextNode("無"));
+            select.appendChild(option);
         }
     });
 }
@@ -301,6 +308,8 @@ function edit_expense(obj){
     tmp = obj.parentNode.cells[2].innerHTML;
     obj.parentNode.cells[2].innerHTML = "<input type='textbox' style='width:100px;height:23px;margin:7px;' value="+tmp+">";
     var accountIndex = expense_account;
+    tmp = obj.parentNode.cells[3].innerHTML;
+    var account_word = tmp;
     obj.parentNode.cells[3].innerHTML = "<select id='expenseAccount' style='width:100px;margin:7px;'></select>";
     $.ajax({
         url: '/account/get-name?userID=user001',
@@ -312,12 +321,19 @@ function edit_expense(obj){
                 var option = document.createElement("option");
                 option.appendChild(document.createTextNode(account_data[i]));
                 select.appendChild(option);
+                if(account_data[i] == account_word){
+                    accountIndex = i;
+                }
             }
             select.options[accountIndex].selected = true;
         }
     });
     var categoryIndex = expense_type;
-    obj.parentNode.cells[4].innerHTML = "<select id='expenseType' style='width:100px;margin:7px;'></select></td>";
+    tmp = obj.parentNode.cells[4].innerHTML;
+    var category_word = tmp;
+    console.log(tmp);
+    console.log(typeof(tmp));
+    obj.parentNode.cells[4].innerHTML = "<td><select id='expenseType' style='width:100px;margin:7px;'></select></td>";
     $.ajax({
         url: '/recordCategory/get-docs?userID=user001&incomeOrExpense=支出',
         method: 'GET',
@@ -328,11 +344,16 @@ function edit_expense(obj){
                 var option = document.createElement("option");
                 option.appendChild(document.createTextNode(expense_data[i])); 
                 select.appendChild(option);
+                if(expense_data[i] == category_word){
+                    categoryIndex = i;
+                }
             }
             select.options[categoryIndex].selected = true;
         }
     });
     var BudgetIndex = expense_budget;
+    tmp = obj.parentNode.cells[5].innerHTML;
+    var budget_word = tmp;
     obj.parentNode.cells[5].innerHTML = "<select id='expenseBudget' style='width:100px;margin:7px;'></select></td>";
     $.ajax({
         url: '/budget/get-available-budget?userID=user001&year='+year.toString()+'&month='+month.toString()+'&day='+day.toString()+'',
@@ -344,7 +365,13 @@ function edit_expense(obj){
                 var option = document.createElement("option");
                 option.appendChild(document.createTextNode(budget_data[i])); 
                 select.appendChild(option);
+                if(budget_data[i] == budget_word){
+                    BudgetIndex = i;
+                }
             }
+            var option = document.createElement("option");
+            option.appendChild(document.createTextNode("無"));
+            select.appendChild(option);
             select.options[BudgetIndex].selected = true;
         }
     });
@@ -359,6 +386,8 @@ function edit_income(obj){
     obj.parentNode.cells[0].innerHTML = "<button class='complete' onclick='complete_income(this)' style='width:65px;'>完成新增</button>";
     obj.parentNode.cells[4].innerHTML = "<input type='textbox' style='width:100px;height:23px;margin:7px;' value="+tmp+">";
     var accountIndex = income_account;
+    tmp = obj.parentNode.cells[1].innerHTML;
+    var account_word = tmp;
     obj.parentNode.cells[1].innerHTML = "<select id='incomeAccount' style='width:100px;margin:7px;'></select>";
     $.ajax({
         url: '/account/get-name?userID=user001',
@@ -370,11 +399,16 @@ function edit_income(obj){
                 var option = document.createElement("option");
                 option.appendChild(document.createTextNode(account_data[i]));
                 select.appendChild(option);
+                if(account_data[i]==account_word){
+                    accountIndex = i;
+                }
             }
             select.options[accountIndex].selected = true;
         }
     });
     var categoryIndex = income_type;
+    tmp = obj.parentNode.cells[2].innerHTML;
+    var category_word = tmp;
     obj.parentNode.cells[2].innerHTML = "<select id='incomeType' style='width:100px;margin:7px;'></select></td>";
     $.ajax({
         url: '/recordCategory/get-docs?userID=user001&incomeOrExpense=收入',
@@ -386,6 +420,9 @@ function edit_income(obj){
                 var option = document.createElement("option");
                 option.appendChild(document.createTextNode(income_data[i])); 
                 select.appendChild(option);
+                if(income_data[i]==category_word){
+                    categoryIndex = i;
+                }
             }
             select.options[categoryIndex].selected = true;
         }
@@ -416,6 +453,7 @@ function complete_expense(obj){
     obj.parentNode.parentNode.cells[3].innerHTML = obj.parentNode.parentNode.cells[3].children[0].value;
 
     expense_type = document.getElementById("expenseType").selectedIndex;
+    console.log(expense_type);
     category = obj.parentNode.parentNode.cells[4].children[0].value;
     obj.parentNode.parentNode.cells[4].innerHTML = obj.parentNode.parentNode.cells[4].children[0].value;
 
@@ -439,21 +477,40 @@ function complete_expense(obj){
     }
     if(editExpense == 0){   //f5後編輯
         var data;
-        data = {
-            "userID": "user001",
-            "accountName": accountName,
-            "budgetName": budgetName,
-            "category": category,
-            "date": {
-                "year": parseInt(year),
-                "month": parseInt(month),
-                "day": parseInt(day),
-                "hour": parseInt(time[0]),
-                "minute": parseInt(time[1])
-            },
-            "incomeOrExpense": "支出",
-            "moneyAmount": parseInt(moneyAmount),
-            "name": name
+        if(budgetName == "無"){
+            data = {
+                "userID": "user001",
+                "accountName": accountName,
+                "budgetName": null,
+                "category": category,
+                "date": {
+                    "year": parseInt(year),
+                    "month": parseInt(month),
+                    "day": parseInt(day),
+                    "hour": parseInt(time[0]),
+                    "minute": parseInt(time[1])
+                },
+                "incomeOrExpense": "支出",
+                "moneyAmount": parseInt(moneyAmount),
+                "name": name
+            }
+        }else{
+            data = {
+                "userID": "user001",
+                "accountName": accountName,
+                "budgetName": budgetName,
+                "category": category,
+                "date": {
+                    "year": parseInt(year),
+                    "month": parseInt(month),
+                    "day": parseInt(day),
+                    "hour": parseInt(time[0]),
+                    "minute": parseInt(time[1])
+                },
+                "incomeOrExpense": "支出",
+                "moneyAmount": parseInt(moneyAmount),
+                "name": name
+            }
         }
         fetch('/record/insert-doc',
             {

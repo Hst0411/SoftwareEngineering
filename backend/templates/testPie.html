@@ -20,8 +20,8 @@
 
         .view{
             position: relative;
-                background-color: red;
-                color: rgb(0, 0, 0);
+                background-color: #df5334;
+                color: white;
                 width: 80px;
                 height: 50px;
                 font-weight: bolder;
@@ -29,7 +29,11 @@
                 border-radius: 10px;
                 cursor: pointer; /*可以指*/
         }
-
+        .view:hover{
+            border: 2px;
+            background-color: #db6937;
+            border-style: solid;
+        }
         /* Remove the navbar's default margin-bottom and rounded borders */
         .navbar {
             margin-bottom: 0;
@@ -201,7 +205,7 @@
                 <div class = "col-sm-6">結束時間: <input type='date' id='endDate'></div>
             </div>
 
-            <div class = "col-sm-2" style = "left: -440px; top: 40px">
+            <div class = "col-sm-2" style = "left: -480px; top: 40px; position: relative;">
                 <button class = "view" onclick = "work()">查詢</button>
             </div>
         </div>
