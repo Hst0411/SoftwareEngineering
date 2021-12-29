@@ -27,7 +27,7 @@ function draw_bar() {
   var a,b,c,A,B,C;
     // create data set on our data
     $.ajax({
-      url: '/recordChart/get-months-compare-with-incomeExpense?userID=user002',
+      url: '/recordChart/get-months-compare-with-incomeExpense?userID=user001',
       method: 'GET',
       dataType: 'json',
       success: function(data) {
