@@ -70,13 +70,13 @@ function draw_bar() {
     var series;
 
     // helper function to setup label settings for all series
-    var setupSeries = function (series, name) {
+    var setupSeries2 = function (series, name) {
       series.name(name);
       series.normal().fill("#FF4500", 0.7).stroke(null)
       series.selected().fill('#f48fb1 0.8').stroke('1.5 #c2185b');
     };
 
-    var setupSeries2 = function (series, name) {
+    var setupSeries = function (series, name) {
         series.name(name);
         series.normal().fill("#00cc99", 0.4).stroke(null)
         series.selected().fill('#f48fb1 0.8').stroke('1.5 #c2185b');

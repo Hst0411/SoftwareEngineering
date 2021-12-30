@@ -4,6 +4,30 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 
 var year, month, day;
 var hour, minute;
+$(document).ready(function () {
+    $.ajax({
+        url: '/account/get-name?userID=user001',
+        method: 'GET',
+        dataType: 'json',
+        success: function(account_name) {
+            var two = 2, select;
+            while(two > 0){
+                if(two==2){
+                    select = document.getElementById("accountname");
+                }else{
+                    select = document.getElementById("accountname2");
+                }
+                for(var i = 0; i < account_name.length; i++){
+                    var option = document.createElement("option");
+                    option.appendChild(document.createTextNode(account_name[i]));
+                    select.appendChild(option);
+                }
+                two-=1;
+            }
+        }
+    })
+  });
+
 function transfer(){
     var date;
     date = new Date();
@@ -21,14 +45,13 @@ function transfer(){
     }else{
         minute = date.getUTCMinutes();
     }
-    console.log(typeof(year));
-    console.log(month);
-    console.log(day);
-    console.log(hour);
-    console.log(minute);
     var send = document.getElementById("accountname").value
     var from_account = document.getElementById("accountname2").value;
+    var from_index = document.getElementById("accountname2").selectedIndex;
+    var from_name = document.getElementById("accountname2").options[from_index].value;
     var to_account = document.getElementById("accountname").value;
+    var to_index = document.getElementById("accountname").selectedIndex;
+    var to_name = document.getElementById("accountname").options[to_index].value;
     var account_money;
     var send_money;
     $.ajax({
@@ -46,34 +69,40 @@ function transfer(){
             console.log(send_money);
             console.log(document.getElementById("accountname").value);
             console.log(document.getElementById("accountname2").value);
-            if(account_money >= send_money){
-                var data;
-                data = {
-                    "userID": "user001",
-                    "accountName": from_account,
-                    "transferFromOrTo": "From",
-                    "targetAccountName": to_account,
-                    "transferDate": {
-                        "year": parseInt(year),
-                        "month": parseInt(month),
-                        "day": parseInt(day),
-                        "hour": parseInt(hour),
-                        "minute": parseInt(minute)
-                    },
-                    "transferMoneyAmount": parseInt(send_money)
-                }
-                fetch('/account/transfer/post-doc',
-                    {
-                        method: "POST",
-                        headers: {
-                            'Content-Type': 'application/json'
+            if(from_name != to_name){
+                if(account_money >= send_money){
+                    var data;
+                    data = {
+                        "userID": "user001",
+                        "accountName": from_account,
+                        "transferFromOrTo": "From",
+                        "targetAccountName": to_account,
+                        "transferDate": {
+                            "year": parseInt(year),
+                            "month": parseInt(month),
+                            "day": parseInt(day),
+                            "hour": parseInt(hour),
+                            "minute": parseInt(minute)
                         },
-                        body: JSON.stringify(data)
-                })
-                alert("轉帳成功!");
-                console.log(data);
-            }else{
-                alert("轉帳金額不可高於帳戶金額!!!")
+                        "transferMoneyAmount": parseInt(send_money)
+                    }
+                    fetch('/account/transfer/post-doc',
+                        {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                    })
+                    alert("轉帳成功!");
+                    console.log(data);
+                }
+                else if(account_money < send_money){
+                    alert("轉帳金額不可高於帳戶金額!!!")
+                }
+            }
+            else{
+                alert("寄錢帳戶不可與收錢帳戶相同!!!");
             }
         }
     })

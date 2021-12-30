@@ -537,24 +537,45 @@ function complete_expense(obj){
         //console.log(obj.parentNode);
     }
     else{   //新增完後編輯
+        console.log(budgetName);
         expenseID = $(obj.parentNode).attr("id");
         console.log(typeof(expenseID));
         var data;
-        data = {
-            "id": expenseID,
-            "userID": "user001",
-            "new_name": name,
-            "new_category": category,
-            "new_date":{
-                "year": parseInt(year),
-                "month": parseInt(month),
-                "day": parseInt(day),
-                "hour": parseInt(time[0]),
-                "minute": parseInt(time[1])
-            },
-            "new_moneyAmount": parseInt(moneyAmount),
-            "new_accountName": accountName,
-            "new_budgetName": budgetName
+        if(budgetName=="無"){
+            data = {
+                "id": expenseID,
+                "userID": "user001",
+                "new_name": name,
+                "new_category": category,
+                "new_date":{
+                    "year": parseInt(year),
+                    "month": parseInt(month),
+                    "day": parseInt(day),
+                    "hour": parseInt(time[0]),
+                    "minute": parseInt(time[1])
+                },
+                "new_moneyAmount": parseInt(moneyAmount),
+                "new_accountName": accountName,
+                "new_budgetName": null
+            }
+        }
+        else{
+            data = {
+                "id": expenseID,
+                "userID": "user001",
+                "new_name": name,
+                "new_category": category,
+                "new_date":{
+                    "year": parseInt(year),
+                    "month": parseInt(month),
+                    "day": parseInt(day),
+                    "hour": parseInt(time[0]),
+                    "minute": parseInt(time[1])
+                },
+                "new_moneyAmount": parseInt(moneyAmount),
+                "new_accountName": accountName,
+                "new_budgetName": budgetName
+            }
         }
         fetch('/record/update-doc',
             {

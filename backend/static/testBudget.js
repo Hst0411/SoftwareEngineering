@@ -52,8 +52,8 @@ function add_budget() {
         "<td id='startDate'><input type='date' style='width:130px;height:27px;margin:7px;'></td>" +
         "<td id='endDate'><input type='date' style='width:130px;height:27px;margin:7px;'></td>" +
         "<td id='targetMoneyAmount'><input type='textbox' style='width:100px;height:27px;margin:7px' placeholder='Ex : 10000'></td>" +
-        "<td id ='usedMoneyAmount'></td>"+
-        "<td id ='overSpend'></td>" +
+        "<td id ='overSpend'>否</td>" +
+        "<td id ='usedMoneyAmount'>0</td>"+
         "<tr><button class='edit' onclick='edit_budget(this)'>編輯</button>" +
         "<button class='delete' onclick='budget_remind(this)'>刪除</button></tr>";
 }
@@ -88,11 +88,22 @@ function complete_fill(obj){
 function set_text(obj)
 {
     var budgetName = obj.parentNode.parentNode.cells[1].children[0].value;
-    var budgetName = obj.parentNode.parentNode.cells[1].children[0].value;
-    obj.style.display="none";
     obj.parentNode.parentNode.cells[1].innerHTML = obj.parentNode.parentNode.cells[1].children[0].value;
-    obj.parentNode.parentNode.cells[2].innerHTML = obj.parentNode.parentNode.cells[2].children[0].value;
-    obj.parentNode.parentNode.cells[3].innerHTML = obj.parentNode.parentNode.cells[3].children[0].value;
+    var sDay="",eDay="";
+    obj.style.display="none";
+    for(var i = 0; i < 10; i++){
+        if(i == 4 || i == 7){
+            sDay += "/";
+            eDay += "/";
+        }else{
+            sDay += obj.parentNode.parentNode.cells[2].children[0].value[i];
+            eDay += obj.parentNode.parentNode.cells[3].children[0].value[i];
+        }
+    }
+    obj.parentNode.parentNode.cells[2].innerHTML = sDay;
+    obj.parentNode.parentNode.cells[3].innerHTML = eDay;
+    console.log(obj.parentNode.parentNode.cells[2].innerHTML);
+    console.log(obj.parentNode.parentNode.cells[3].innerHTML)
     obj.parentNode.parentNode.cells[4].innerHTML = obj.parentNode.parentNode.cells[4].children[0].value;
     var year="", month = [0, 1], day = [0, 1];
     if(obj.parentNode.parentNode.cells[2].innerHTML[5] == 0){
