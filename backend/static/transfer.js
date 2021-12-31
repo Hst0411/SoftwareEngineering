@@ -71,7 +71,7 @@ function transfer(){
             console.log(document.getElementById("accountname2").value);
             if(from_name != to_name){
                 if(account_money >= send_money){
-                    var data;
+                var data;
                     data = {
                         "userID": "user001",
                         "accountName": from_account,
@@ -96,9 +96,13 @@ function transfer(){
                     })
                     alert("轉帳成功!");
                     console.log(data);
+                    self.location = "account.html";
                 }
                 else if(account_money < send_money){
                     alert("轉帳金額不可高於帳戶金額!!!")
+                }
+                else{
+                    alert("金額不可為空!!!")
                 }
             }
             else{
