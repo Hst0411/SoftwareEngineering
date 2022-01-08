@@ -11,6 +11,7 @@ from recordCategoryModule import appRecordCategory
 from budgetModule import appBudget
 from accountModule import appAccount
 from recordChartModule import appRecordChart
+from currencyExchangeModule import appCurrencyExchange
 
 
 app = Flask(__name__)
@@ -23,6 +24,7 @@ app.register_blueprint(appRecordCategory)
 app.register_blueprint(appBudget)
 app.register_blueprint(appAccount)
 app.register_blueprint(appRecordChart)
+app.register_blueprint(appCurrencyExchange)
 
 @app.route('/', methods=["GET"])
 def index_page():
