@@ -31,22 +31,22 @@ function draw_bar() {
       method: 'GET',
       dataType: 'json',
       success: function(data) {
-          console.log(data);
           firstMonthExpense = data[0].expense;
-          console.log(firstMonthExpense);
           secondMonthExpense = data[1].expense;
-          console.log(secondMonthExpense);
           thirdMonthExpense = data[2].expense;
-          console.log(thirdMonthExpense);
           firstMonthIncome = data[0].income;
-          console.log(firstMonthIncome);
           secondMonthIncome = data[1].income;
-          console.log(secondMonthIncome);
           thirdMonthIncome = data[2].income;
-          console.log(thirdMonthIncome);
+    var showMonth = month;
+    if(showMonth == 01){
+      showMonth = 13;
+    }
+    else if(showMonth == 02){
+      showMonth = 14;
+    }
     var dataSet = anychart.data.set([
-      [month - 2+ '月', thirdMonthIncome, thirdMonthExpense], //倒數第三月
-      [month - 1+ '月', secondMonthIncome, secondMonthExpense], //倒數二
+      [showMonth - 2+ '月', thirdMonthIncome, thirdMonthExpense], //倒數第三月
+      [showMonth - 1+ '月', secondMonthIncome, secondMonthExpense], //倒數二
       [month + '月', firstMonthIncome, firstMonthExpense], //目前這個月
     ]);
 
