@@ -5,7 +5,7 @@ src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 var d = new Date();
 
 var firstMonthIncome, firstMonthExpense, secondMonthIncome, secondMonthExpense, thirdMonthIncome, thirdMonthExpense; //目前沒設預設值所以沒有圖
-
+var currency = 1;
 var month;
 $(document).ready(function () {
   var date = new Date();
@@ -24,6 +24,12 @@ function pad2(n) {
 
 //一進來就會畫因爲不會再更新
 function draw_bar() {
+  if(localStorage.getItem('myCurrency') == null){
+    currency = 1;
+  }
+  else{
+      currency = localStorage.getItem('myCurrency');
+  }
   var a,b,c,A,B,C;
     // create data set on our data
     $.ajax({
@@ -44,11 +50,18 @@ function draw_bar() {
           console.log(secondMonthIncome);
           thirdMonthIncome = data[2].income;
           console.log(thirdMonthIncome);
-    var dataSet = anychart.data.set([
-      [month - 2+ '月', thirdMonthIncome, thirdMonthExpense], //倒數第三月
-      [month - 1+ '月', secondMonthIncome, secondMonthExpense], //倒數二
-      [month + '月', firstMonthIncome, firstMonthExpense], //目前這個月
-    ]);
+          var showMonth = month;
+          if(showMonth == 01){
+            showMonth = 13;
+          }
+          else if(showMonth == 02){
+            showMonth = 14;
+          }
+          var dataSet = anychart.data.set([
+            [showMonth - 2+ '月', (thirdMonthIncome/currency).toFixed(2), (thirdMonthExpense/currency).toFixed(2)], //倒數第三月
+            [showMonth - 1+ '月', (secondMonthIncome/currency).toFixed(2), (secondMonthExpense/currency).toFixed(2)], //倒數二
+            [month + '月', (firstMonthIncome/currency).toFixed(2), (firstMonthExpense/currency).toFixed(2)], //目前這個月
+          ]);
 
     // map data for the first series, take x from the zero column and value from the first column of data set
     var firstSeriesData = dataSet.mapAs({ x: 0, value: 1 });

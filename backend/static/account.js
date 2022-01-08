@@ -4,7 +4,14 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 
 var accountNO, accountID;
 var editAccount = 0;
+var currency = 1;
 $(document).ready(function () {
+    if(localStorage.getItem('myCurrency') == null){
+        currency = 1;
+    }
+    else{
+        currency = localStorage.getItem('myCurrency');
+    }
     $.ajax({
         url: '/account/get-docs?userID=user001',
         method: 'GET',
@@ -18,25 +25,25 @@ $(document).ready(function () {
                 row.style.background = "#FFD2D2";
                 row.innerHTML = "<td id ="+ account_data[i]._id +"></td>"+
                 "<td id='accountname'>" + account_data[i].accountName + "</td>" +
-                "<td id='money'>"+ account_data[i].leftMoneyAmount +"</td>";
+                "<td id='money'>"+ (account_data[i].leftMoneyAmount/currency).toFixed(2) +"</td>";
                 if(account_data[i].transferRecord.length != 0){
                     for(var j = 0; j < account_data[i].transferRecord.length - 1; j++){
                         if(account_data[i].transferRecord[j].transferFromOrTo == "From"){
-                            record += account_data[i].transferRecord[j].targetAccountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
+                            record += account_data[i].transferRecord[j].targetAccountName+"轉了"+(account_data[i].transferRecord[j].transferMoneyAmount/currency).toFixed(2)+"元到"+
                             account_data[i].accountName+" "+account_data[i].transferRecord[j].transferDate +"<br>";
                         }
                         else if(account_data[i].transferRecord[j].transferFromOrTo == "To"){
-                            record += account_data[i].accountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
+                            record += account_data[i].accountName+"轉了"+(account_data[i].transferRecord[j].transferMoneyAmount/currency).toFixed(2)+"元到"+
                             account_data[i].transferRecord[j].targetAccountName+" "+account_data[i].transferRecord[j].transferDate +"<br>";
                         }
                     }
                     for(var j = account_data[i].transferRecord.length - 1; j < account_data[i].transferRecord.length; j++){
                         if(account_data[i].transferRecord[j].transferFromOrTo == "From"){
-                            record += account_data[i].transferRecord[j].targetAccountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
+                            record += account_data[i].transferRecord[j].targetAccountName+"轉了"+(account_data[i].transferRecord[j].transferMoneyAmount/currency).toFixed(2)+"元到"+
                             account_data[i].accountName+" "+account_data[i].transferRecord[j].transferDate;
                         }
                         else if(account_data[i].transferRecord[j].transferFromOrTo == "To"){
-                            record += account_data[i].accountName+"轉了"+account_data[i].transferRecord[j].transferMoneyAmount+"元到"+
+                            record += account_data[i].accountName+"轉了"+(account_data[i].transferRecord[j].transferMoneyAmount/currency).toFixed(2)+"元到"+
                             account_data[i].transferRecord[j].targetAccountName+" "+account_data[i].transferRecord[j].transferDate;
                         }
                     }
@@ -95,7 +102,7 @@ function account_complete(obj){
         data = {
             "userID": "user001",
             "accountName": account_name,
-            "leftMoneyAmount": parseInt(account_money)
+            "leftMoneyAmount": parseInt(account_money*currency)
         }
         fetch('/account/insert-doc',
             {
