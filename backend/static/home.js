@@ -10,6 +10,7 @@ var close = 0;
 var expense_type, income_type;
 var expense_budget;
 var expense_account, income_account;
+var currency = 1;
 //初始化
 $(document).ready(function () {
     //日期
@@ -26,6 +27,13 @@ $(document).ready(function () {
     console.log(year);
     console.log(month);
     console.log(day);
+    if(localStorage.getItem('myCurrency') == null){
+        currency = 1;
+    }
+    else{
+        currency = localStorage.getItem('myCurrency');
+    }
+    console.log(currency);
     //支出
     GetExpenseData();
     //收入
@@ -55,7 +63,7 @@ function GetExpenseData(){
                 row.style.background = "#FFD2D2";
                 row.innerHTML = "<td id ="+ expense_data[i]._id +"></td>"+
                 "<td id='name'>" + expense_data[i].name + "</td>" +
-                "<td id='price'>" + expense_data[i].moneyAmount + "</td>"+
+                "<td id='price'>" + (expense_data[i].moneyAmount/currency).toFixed(2) + "</td>"+
                 "<td id='account'>" + expense_data[i].accountName + "</td>"+
                 "<td id='type'>" + expense_data[i].category + "</td>";
                 if(expense_data[i].budgetName == null){
@@ -97,7 +105,7 @@ function GetIncomeData(){
                 "<td id='account'>" + income_data[i].accountName + "</td>" + 
                 "<td id='type'>" + income_data[i].category + "</td>" +
                 "<td id='time'>" + hr + ":" + min + "</td>"+
-                "<td id='price'>" + income_data[i].moneyAmount + "</td>"+
+                "<td id='price'>" + (income_data[i].moneyAmount/currency).toFixed(2) + "</td>"+
                 "<td></td>" +
                 "<td></td>" +
                 "<tr><button class='edit' onclick='edit_income(this)' style='top:2px;position:relative;'>編輯</button>" +
@@ -491,7 +499,7 @@ function complete_expense(obj){
                     "minute": parseInt(time[1])
                 },
                 "incomeOrExpense": "支出",
-                "moneyAmount": parseInt(moneyAmount),
+                "moneyAmount": parseInt(moneyAmount*currency),
                 "name": name
             }
         }else{
@@ -508,7 +516,7 @@ function complete_expense(obj){
                     "minute": parseInt(time[1])
                 },
                 "incomeOrExpense": "支出",
-                "moneyAmount": parseInt(moneyAmount),
+                "moneyAmount": parseInt(moneyAmount*currency),
                 "name": name
             }
         }
@@ -554,7 +562,7 @@ function complete_expense(obj){
                     "hour": parseInt(time[0]),
                     "minute": parseInt(time[1])
                 },
-                "new_moneyAmount": parseInt(moneyAmount),
+                "new_moneyAmount": parseInt(moneyAmount*currency),
                 "new_accountName": accountName,
                 "new_budgetName": null
             }
@@ -572,7 +580,7 @@ function complete_expense(obj){
                     "hour": parseInt(time[0]),
                     "minute": parseInt(time[1])
                 },
-                "new_moneyAmount": parseInt(moneyAmount),
+                "new_moneyAmount": parseInt(moneyAmount*currency),
                 "new_accountName": accountName,
                 "new_budgetName": budgetName
             }
@@ -633,7 +641,7 @@ function complete_income(obj){
                 "minute": parseInt(time[1])
             },
             "incomeOrExpense": "收入",
-            "moneyAmount": parseInt(moneyAmount),
+            "moneyAmount": parseInt(moneyAmount*currency),
             "name": null
         }
         fetch('/record/insert-doc',
@@ -672,7 +680,7 @@ function complete_income(obj){
                 "hour": parseInt(time[0]),
                 "minute": parseInt(time[1])
             },
-            "new_moneyAmount": parseInt(moneyAmount),
+            "new_moneyAmount": parseInt(moneyAmount*currency),
             "new_accountName": accountName,
             "new_budgetName": null
         }

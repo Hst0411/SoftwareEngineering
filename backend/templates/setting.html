@@ -160,8 +160,7 @@
         }
     </style>
 
-    <script type="text/javascript" language="javascript">
-    </script>
+<script type="text/javascript" src="{{url_for('static',filename = 'setting.js')}}"></script>
 
 
 </head>
@@ -219,14 +218,18 @@
                 <h1>貨幣選擇</h1>
                 <br>
                 <select name="Currencyvalue" id="Currencyvalue" style="padding:0;">
-                    <option value="NTD">新台幣</option>
-                    <option value="JPY">日元</option>
-                    <option value="USD">美元</option>
-                    <option value="EUR">歐元</option>
-                  </select>
-                  <button class="select"type="button">
-                    確認
-                  </button>
+                    <option>TWD</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                    <option>JPY</option>
+                    <option>RMB</option>
+                    <option>GBP</option>
+                    <option>AUD</option>
+                    <option>HKD</option>
+                    <option>ZAR</option>
+                    <option>NZD</option>
+                </select>
+                  <button class="select"type="button" onclick="GetCurrencyValue()">確認</button>
                   <br>
                   <br>
                   <br>

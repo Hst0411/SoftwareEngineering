@@ -6,8 +6,14 @@ var category, name, budget;
 var date_start, date_end;
 var budgetNO, budgetID;
 var editBudget = 0;
-
+var currency = 1;
 $(document).ready(function () {
+    if(localStorage.getItem('myCurrency') == null){
+        currency = 1;
+    }
+    else{
+        currency = localStorage.getItem('myCurrency');
+    }
     $.ajax({
         url: '/budget/get-docs?userID=user001',
         method: 'GET',
@@ -26,15 +32,15 @@ $(document).ready(function () {
                 "<td id='budgetName'>" + data[i].budgetName + "</td>" +
                 "<td id='startDate'>" + s.getFullYear() + "/"+ (s.getMonth() + 1) +"/" + s.getDate() + "</td>"+
                 "<td id='endDate'>" + e.getFullYear() + "/"+ (e.getMonth()+1)+"/" + e.getDate() + "</td>" +
-                "<td id='targetMoneyAmount'>" + data[i].targetMoneyAmount + "</td>";
+                "<td id='targetMoneyAmount'>" + (data[i].targetMoneyAmount/currency).toFixed(2) + "</td>";
                 if(data[i].overSpend == true){
                     row.innerHTML+="<td id='overSpend'><span style='color:red;font-size: 18px;font-weight: bolder;'>是</span></td>" +
-                    "<td id='usedMoneyAmount'>" + data[i].usedMoneyAmount + "</td>" +
+                    "<td id='usedMoneyAmount'>" + (data[i].usedMoneyAmount/currency).toFixed(2) + "</td>" +
                     "<tr><button class='edit' onclick='edit_budget(this)'>編輯</button>" +
                     "<button class='delete' onclick='budget_remind(this)'>刪除</button></tr>";
                 }else{
                     row.innerHTML+="<td id='overSpend'>否</td>" +
-                    "<td id='usedMoneyAmount'>" + data[i].usedMoneyAmount + "</td>" +
+                    "<td id='usedMoneyAmount'>" + (data[i].usedMoneyAmount/currency).toFixed(2) + "</td>" +
                     "<tr><button class='edit' onclick='edit_budget(this)'>編輯</button>" +
                     "<button class='delete' onclick='budget_remind(this)'>刪除</button></tr>";
                 }
@@ -148,7 +154,7 @@ function set_text(obj)
                 "month": parseInt(month[1]),
                 "day": parseInt(day[1])
             },
-            "targetMoneyAmount":parseInt(obj.parentNode.parentNode.cells[4].innerHTML)
+            "targetMoneyAmount":parseInt(obj.parentNode.parentNode.cells[4].innerHTML*currency)
         }
         fetch('/budget/insert-doc',
             {

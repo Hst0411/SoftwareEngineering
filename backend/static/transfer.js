@@ -4,6 +4,7 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 
 var year, month, day;
 var hour, minute;
+var currency = 1;
 $(document).ready(function () {
     $.ajax({
         url: '/account/get-name?userID=user001',
@@ -29,6 +30,12 @@ $(document).ready(function () {
   });
 
 function transfer(){
+    if(localStorage.getItem('myCurrency') == null){
+        currency = 1;
+    }
+    else{
+        currency = localStorage.getItem('myCurrency');
+    }
     var date;
     date = new Date();
     day = date.getDate();
@@ -84,7 +91,7 @@ function transfer(){
                             "hour": parseInt(hour),
                             "minute": parseInt(minute)
                         },
-                        "transferMoneyAmount": parseInt(send_money)
+                        "transferMoneyAmount": parseInt(send_money*currency)
                     }
                     fetch('/account/transfer/post-doc',
                         {

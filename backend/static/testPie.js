@@ -5,6 +5,7 @@ src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"
 var start_year='', start_month, start_day, dateSent_start, dateSent_end;
 var end_year='', end_month, end_day;
 var incomelength, expenselength;
+var currency = 1;
 
 var data_income = [
     {x: "", value: 0},
@@ -35,6 +36,12 @@ var mappingIncome;
 var elementID = "container";
 var elementID2 = "container2";
 function GetIncomeData(){
+    if(localStorage.getItem('myCurrency') == null){
+        currency = 1;
+    }
+    else{
+        currency = localStorage.getItem('myCurrency');
+    }
     $.ajax({
         url: '/recordChart/get-category-compare?userID=user001&startDateYear='+start_year+'&startDateMonth='+start_month+
         '&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=收入',
@@ -43,7 +50,7 @@ function GetIncomeData(){
         success: function(income_data) {
             for(var i=0;i<income_data.length;i++){
                 data_income[i].x = income_data[i]._id;
-                data_income[i].value = income_data[i].total_amount;
+                data_income[i].value = (income_data[i].total_amount/currency).toFixed(2);
                 mappingIncome.set(i, "value", data_income[i].value);
                 mappingIncome.set(i, "x", data_income[i].x);
             }
@@ -52,6 +59,12 @@ function GetIncomeData(){
     });
 }
 function GetExpenseData(){
+    if(localStorage.getItem('myCurrency') == null){
+        currency = 1;
+    }
+    else{
+        currency = localStorage.getItem('myCurrency');
+    }
     $.ajax({
         url: '/recordChart/get-category-compare?userID=user001&startDateYear='+start_year+'&startDateMonth='+start_month+
         '&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=支出',
@@ -61,7 +74,7 @@ function GetExpenseData(){
             console.log(expense_data)
             for(var i=0;i<expense_data.length;i++){
                 data_expense[i].x = expense_data[i]._id;
-                data_expense[i].value = expense_data[i].total_amount;
+                data_expense[i].value = (expense_data[i].total_amount/currency).toFixed(2);
                 mappingExpense.set(i, "value", data_expense[i].value);
                 mappingExpense.set(i, "x", data_expense[i].x);
             }
