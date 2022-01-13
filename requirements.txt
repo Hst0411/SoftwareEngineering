@@ -4,3 +4,4 @@ pymongo
 gunicorn
 pymongo[srv]
 requests
+google-auth
