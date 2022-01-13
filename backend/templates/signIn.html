@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="favicon.ico" rel="shortcut icon">
+  <meta charset="utf-8" />
+  <title>Google Sign In</title>
+  <meta name="google-signin-client_id"
+    content="199077799730-3o9nt0qi383e6ikef8i2ea3ipmm90ad4.apps.googleusercontent.com">
+  <meta name="google-signin-scope" content="profile email">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap");
+
+    .start {
+      top: 150px;
+      text-align: center;
+      position: absolute;
+      left: 430px;
+      margin: auto;
+      padding: 50px;
+      width: 320px;
+      height: 350px;
+      background-color: white;
+      border-radius: 5px;
+      /*框的角*/
+      border-top: 10px solid #df5334;
+      /*框框上方*/
+      border-bottom: 10px solid #df5334;
+      box-shadow: 0 0px 70px rgba(0, 0, 0, 0.1);
+      /*rgba的a為陰影部分*/
+    }
+
+    .start h3 {
+      color: black;
+      font-size: 20px;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    .register,
+    .login {
+      color: white;
+      background: #df5334;
+      width: 200px;
+      height: 50px;
+      margin: 10px;
+      font-weight: bolder;
+      border: 0;
+      /*去邊框*/
+      border-radius: 5px;
+      cursor: pointer;
+      /*可以指*/
+    }
+
+    .register:hover,
+    .login:hover {
+      border: 2px;
+      background-color: #db6937;
+      border-style: solid;
+    }
+
+    .g-signin2 {
+      position: relative;
+      left: 40px;
+      top: 50px;
+      height: 50px;
+      margin: 10px;
+      font-weight: bolder;
+      border: 0;
+      /*去邊框*/
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="start" id="start">
+    <h3>記帳小幫手</h3>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+  </div>
+
+  <script>
+    function onSignIn(googleUser) {
+      // Useful data for your client-side scripts:
+      var profile = googleUser.getBasicProfile();
+      console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+      console.log('Full Name: ' + profile.getName());
+      console.log('Given Name: ' + profile.getGivenName());
+      console.log('Family Name: ' + profile.getFamilyName());
+      console.log("Image URL: " + profile.getImageUrl());
+      console.log("Email: " + profile.getEmail());
+
+      // The ID token you need to pass to your backend:
+      var id_token = googleUser.getAuthResponse().id_token;
+      console.log("ID Token: " + id_token);
+
+      var data;
+      data = {
+        "id_token": id_token
+      }
+
+      fetch('/sign-in', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then(returnData => {
+          console.log(returnData);
+        })
+
+      //window.replace = '<https://ntou-se-expense-tracking.herokuapp.com/home.html>'
+    }
+  </script>
+</body>
+
+</html>
