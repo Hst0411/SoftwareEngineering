@@ -13,7 +13,7 @@ appSignIn = Blueprint('appSignIn', __name__)
 GOOGLE_OAUTH2_CLIENT_ID = "199077799730-3o9nt0qi383e6ikef8i2ea3ipmm90ad4.apps.googleusercontent.com"
 
 
-@appSignIn.route('/sign-in')
+@appSignIn.route('/sign-in', methods=["POST"])
 def sign_in():
     token = request.get_json().get('id_token')
 
@@ -44,4 +44,4 @@ def sign_in():
         raise ValueError('Invalid token')
 
     print('登入成功')
-    return userID, 200
+    return jsonify(userID), 200
