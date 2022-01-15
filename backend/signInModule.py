@@ -10,6 +10,7 @@ import uuid
 import datetime
 from flask_jwt_extended import (
     create_access_token, set_access_cookies, unset_jwt_cookies)
+import currencyExchangeModule
 
 appSignIn = Blueprint('appSignIn', __name__)
 
@@ -39,10 +40,18 @@ def sign_in():
                 "selectCurrency": "TWD"
             }
             mainDB.DB.get_collection(config.memberCol).insert_one(doc)
+            cate_doc = {
+                "_id": str(uuid.uuid4()),
+                "userID": userID,
+                "recordCategoryList": []
+            }
+            mainDB.DB.get_collection(
+                config.recordCategoryCol).insert_one(cate_doc)
 
         access_token = create_access_token(identity=userID)
         #refresh_token = create_refresh_token(identity=userID)
-        resp = jsonify({'login': True})
+        resp = jsonify({'login': True, "selectCurrencyExRate": str(currencyExchangeModule.cal_exchange_rate(
+            mainDB.DB.get_collection(config.memberCol).find_one({"userID": userID})["selectCurrency"]))})
         set_access_cookies(resp, access_token)
         #set_refresh_cookies(resp, refresh_token)
 
@@ -86,7 +95,7 @@ def test_sign_in():
 
 @appSignIn.route('/sign-out', methods=['GET'])
 def sign_out():
-    resp = make_response(redirect('', 302))
+    resp = make_response(redirect('/', 302))
     #resp = jsonify({'logout': True})
     unset_jwt_cookies(resp)
     return resp

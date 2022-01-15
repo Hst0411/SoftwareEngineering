@@ -126,6 +126,7 @@
         })
         .then(returnData => {
           console.log(returnData);
+          localStorage.setItem("myCurrency", returnData["selectCurrencyExRate"]);
         })
         .then(() => {
           //取得user的google帳戶資料就先sign out
