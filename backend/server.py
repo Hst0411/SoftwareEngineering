@@ -43,7 +43,7 @@ app.register_blueprint(appSignIn)
 
 
 # 使用者每次發request之後，都更新快過期的jwt token
-#@app.after_request
+@app.after_request
 def refresh_expiring_jwts(response):
     try:
         print("after request")
