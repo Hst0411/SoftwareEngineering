@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, Blueprint
 from flask.blueprints import Blueprint
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 import recordDB
@@ -8,11 +9,11 @@ import accountDB
 
 appRecord = Blueprint('appRecord', __name__)
 
-
 @appRecord.route("/record/insert-doc", methods=["POST"])
+@jwt_required()
 def insert_doc():
     body = request.get_json()
-    userID = body.get("userID")
+    userID = get_jwt_identity()
     name = body.get("name")
     incomeOrExpense = body.get("incomeOrExpense")
     category = body.get("category")
@@ -37,14 +38,15 @@ def insert_doc():
 
 
 @appRecord.route("/record/update-doc", methods=["PUT"])
+@jwt_required()
 def update_doc():
     body = request.get_json()
     # 帳目紀錄ID和使用者ID不會更動，用作query條件
     query = {
         "_id": body.get("id"),
-        "userID": body.get("userID")
+        "userID": get_jwt_identity()
     }
-    userID = body.get("userID")
+    userID = get_jwt_identity()
     # 取得資料欄位
     new_para = dict()
     new_para["name"] = body.get("new_name")
@@ -135,9 +137,10 @@ def update_doc():
 
 
 @appRecord.route("/record/delete-doc", methods=["DELETE"])
+@jwt_required()
 def delete_doc():
     id = request.args.get("id")
-    userID = request.args.get("userID")
+    userID = get_jwt_identity()
 
     res = recordDB.delete_doc(id, userID)
 
@@ -159,9 +162,10 @@ def delete_doc():
 
 
 @appRecord.route("/record/get-docs", methods=["GET"])
+@jwt_required()
 def get_docs():
     args = request.args
-    userID = args.get("userID")
+    userID = get_jwt_identity()
     incomeOrExpense = args.get("incomeOrExpense")
     date = dict()
     date = {

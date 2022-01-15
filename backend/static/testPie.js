@@ -43,8 +43,8 @@ function GetIncomeData(){
         currency = localStorage.getItem('myCurrency');
     }
     $.ajax({
-        url: '/recordChart/get-category-compare?userID=user001&startDateYear='+start_year+'&startDateMonth='+start_month+
-        '&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=收入',
+        url: '/recordChart/get-category-compare?startDateYear='+start_year+'&startDateMonth='+start_month+
+        '&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=收入'+'&jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
         dataType: 'json',
         success: function(income_data) {
@@ -66,8 +66,8 @@ function GetExpenseData(){
         currency = localStorage.getItem('myCurrency');
     }
     $.ajax({
-        url: '/recordChart/get-category-compare?userID=user001&startDateYear='+start_year+'&startDateMonth='+start_month+
-        '&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=支出',
+        url: '/recordChart/get-category-compare?startDateYear='+start_year+'&startDateMonth='+start_month+
+        '&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=支出'+'&jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
         dataType: 'json',
         success: function(expense_data) {

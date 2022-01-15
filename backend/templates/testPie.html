@@ -149,7 +149,7 @@
     <div class="container-fluid" style="background-color:rgb(255, 251, 38)">
         <h1 style="font-size: 35px;"><strong><span style="left: 50px;position: relative;">記帳小幫手</span></strong></h1>
         <img src = "{{url_for('static',filename = 'computer.png')}}" class = "computer_img">
-        <button class = "signout" id = "signout" style="z-index: 1;">登出</button>
+        <a href="sign-out"><button class="signout" id="signout" style="z-index: 1;">登出</button></a>
     </div>
     <div class="container-fluid">
         <div class="row content">
@@ -185,11 +185,6 @@
                         <li class="dropdown">
                             <a href="setting.html" style="padding:0;">
                                 <p class="y">設定</p>
-                            </a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="setting.html" style="padding:0;">
-                                <p class="y">登出</p>
                             </a>
                         </li>
                     </ul>

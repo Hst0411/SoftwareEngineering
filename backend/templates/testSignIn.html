@@ -81,11 +81,14 @@
 
   <div class="start" id="start">
     <h3>記帳小幫手</h3>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div>
+      <input type="text" id="inputName">
+      <a href="#" onclick="testSignIn();">Sign In</a>
+    </div>
   </div>
-  <!--div>
+  <div>
     <a href="#" onclick="signOut();">Sign out</a>
-  </div-->
+  </div>
   <script>
     function signOut() {
       var auth2 = gapi.auth2.getAuthInstance();
@@ -95,6 +98,28 @@
     }
   </script>
   <script>
+    function testSignIn() {
+      var str = document.getElementById("inputName").value;
+      var data;
+      data = {
+        "id_token": str
+      }
+      fetch('/test-sign-in', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => {
+          return response.json();
+        })
+        .then(returnData => {
+          console.log(returnData);
+          localStorage.setItem("JWT-token", returnData);
+          location.replace('/home.html');
+        })
+    }
     function onSignIn(googleUser) {
       // Useful data for your client-side scripts:
       var profile = googleUser.getBasicProfile();
@@ -127,16 +152,8 @@
         .then(returnData => {
           console.log(returnData);
         })
-        .then(() => {
-          //取得user的google帳戶資料就先sign out
-          //並導向至首頁
-          signOut();
-          setTimeout(redir, 500);
-        })
-    }
 
-    function redir() {
-      window.location.href = "/home.html";
+      //window.replace = '<https://ntou-se-expense-tracking.herokuapp.com/home.html>'
     }
   </script>
 </body>
