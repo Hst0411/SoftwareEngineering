@@ -52,7 +52,6 @@ def delete_doc():
     return "Error", 500
 
 
-
 @appRecordCategory.route("/recordCategory/get-docs", methods=["GET"])
 @jwt_required()
 def get_docs():
@@ -67,8 +66,10 @@ def get_docs():
         category_res = ["薪水", "獎金", "投資", "利息", "錢包", "其他"]
 
     # 轉換成list(array)形式，僅回傳收入或支出的類別名稱
+    print(len(list(res)))
     if len(list(res)) == 0:
         return jsonify(category_res), 200
+
     for item in list(res).pop(0)["recordCategoryList"]:
         category_res.append(item["name"])
     return jsonify(category_res), 200
