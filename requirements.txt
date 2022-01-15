@@ -5,3 +5,4 @@ gunicorn
 pymongo[srv]
 requests
 google-auth
+Flask-JWT-Extended
