@@ -7,7 +7,7 @@ function GetCurrencyValue(){
     var selectData = select.options[select.selectedIndex].value;
     console.log(selectData);
     $.ajax({
-        url: '/currencyExchange/get-exchange-rate?targetCurrency='+selectData.toString()+'',
+        url: '/currencyExchange/get-exchange-rate?targetCurrency='+selectData.toString()+'&jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
         dataType: 'json',
         success:function(currency){

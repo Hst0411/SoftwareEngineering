@@ -15,7 +15,7 @@ $(document).ready(function () {
         currency = localStorage.getItem('myCurrency');
     }
     $.ajax({
-        url: '/budget/get-docs?userID=user001',
+        url: '/budget/get-docs?'+'jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -68,7 +68,7 @@ function delete_budget() {
     var table = document.getElementById("budget_table");
     document.getElementById("budget_remind").style.display = "none";
     $.ajax({
-        url: '/budget/delete-doc?userID=user001&id='+ budgetID,
+        url: '/budget/delete-doc?id='+ budgetID+'&jwt='+localStorage.getItem("JWT-token"),
         type: 'DELETE',
         success: function(result) {
             console.log(result);
@@ -160,7 +160,8 @@ function set_text(obj)
             {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
                 },
                 body: JSON.stringify(data),
                 error: function(warn){
@@ -169,7 +170,7 @@ function set_text(obj)
         })
         console.log(data);
         $.ajax({
-            url: '/budget/get-docs?userID=user001',
+            url: '/budget/get-docs?'+'jwt='+localStorage.getItem("JWT-token"),
             method: 'GET',
             dataType: 'json',
             success: function(budget_data) {
@@ -204,7 +205,8 @@ function set_text(obj)
             {
                 method: "PUT",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
                 },
                 body: JSON.stringify(data)
         })

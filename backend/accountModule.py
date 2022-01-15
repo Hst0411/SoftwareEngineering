@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, Blueprint
 from flask.blueprints import Blueprint
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 import accountDB
@@ -9,9 +10,10 @@ appAccount = Blueprint('appAccount', __name__)
 
 
 @appAccount.route("/account/insert-doc", methods=["POST"])
+@jwt_required()
 def insert_doc():
     body = request.get_json()
-    userID = body.get("userID")
+    userID = get_jwt_identity()
     accountName = body.get("accountName")
     leftMoneyAmount = body.get("leftMoneyAmount")
     res = accountDB.insert_doc(userID, accountName, leftMoneyAmount)
@@ -21,10 +23,11 @@ def insert_doc():
 
 
 @appAccount.route("/account/update-doc", methods=["PUT"])
+@jwt_required()
 def update_doc():
     body = request.get_json()
     id = body.get("id")
-    userID = body.get("userID")
+    userID = get_jwt_identity()
     accountName = body.get("accountName")
     res = accountDB.update_doc(id, userID, accountName)
     if res.acknowledged:
@@ -33,9 +36,10 @@ def update_doc():
 
 
 @appAccount.route("/account/delete-doc", methods=["DELETE"])
+@jwt_required()
 def delete_doc():
     id = request.args.get("id")
-    userID = request.args.get("userID")
+    userID = get_jwt_identity()
     res = accountDB.delete_doc(id, userID)
     if res.acknowledged:
         return "Deleted", 200
@@ -43,39 +47,45 @@ def delete_doc():
 
 
 @appAccount.route("/account/transfer/get-transferInfo", methods=["GET"])
+@jwt_required()
 def get_transferInfo():
-    userID = request.args.get("userID")
+    userID = get_jwt_identity()
     accountName = request.args.get("accountName")
     res = accountDB.get_oneAccountInfo(userID, accountName)
     return jsonify(res["transferRecord"]), 200
 
 
 @appAccount.route("/account/transfer/post-doc", methods=["POST"])
+@jwt_required()
 def post_doc():
     body = request.get_json()
-    userID = body.get("userID")
+    userID = get_jwt_identity()
     accountName = body.get("accountName")
     transferFromOrTo = body.get("transferFromOrTo")
     targetAccountName = body.get("targetAccountName")
     transferDate = body.get("transferDate")
     transferMoneyAmount = body.get("transferMoneyAmount")
-    res1 = accountDB.transfer(userID, accountName, transferFromOrTo, targetAccountName, transferDate, transferMoneyAmount)
+    res1 = accountDB.transfer(userID, accountName, transferFromOrTo,
+                              targetAccountName, transferDate, transferMoneyAmount)
     opp_transferFromOrTo = "To" if transferFromOrTo == "From" else "From"
-    res2 = accountDB.transfer(userID, targetAccountName, opp_transferFromOrTo, accountName, transferDate, transferMoneyAmount)
+    res2 = accountDB.transfer(userID, targetAccountName, opp_transferFromOrTo,
+                              accountName, transferDate, transferMoneyAmount)
     if res1.acknowledged and res2.acknowledged:
         return "Inserted", 200
     return "Error", 500
 
 
 @appAccount.route("/account/get-name", methods=["GET"])
+@jwt_required()
 def get_name():
-    userID = request.args.get("userID")
+    userID = get_jwt_identity()
     return jsonify(accountDB.get_accountNames(userID)), 200
 
 
 @appAccount.route("/account/get-docs", methods=["GET"])
+@jwt_required()
 def get_docs():
-    userID = request.args.get("userID")
+    userID = get_jwt_identity()
     res = accountDB.get_docs(userID)
     temp_res = list()
     for item in res:

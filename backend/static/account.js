@@ -13,7 +13,7 @@ $(document).ready(function () {
         currency = localStorage.getItem('myCurrency');
     }
     $.ajax({
-        url: '/account/get-docs?userID=user001',
+        url: '/account/get-docs?'+'jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
         dataType: 'json',
         success: function(account_data) {
@@ -81,7 +81,7 @@ function account_delete(){
 	table.deleteRow(accountNO);                 //刪除第幾列
     document.getElementById("remind").style.display = "none";
     $.ajax({
-        url: '/account/delete-doc?id='+ accountID +'&userID=user001',
+        url: '/account/delete-doc?id='+ accountID +'&jwt='+localStorage.getItem("JWT-token"),
         type: 'DELETE',
         success: function(result) {
             console.log(result);
@@ -108,7 +108,8 @@ function account_complete(obj){
             {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
                 },
                 body: JSON.stringify(data)
         })
@@ -126,7 +127,8 @@ function account_complete(obj){
             {
                 method: "PUT",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
                 },
                 body: JSON.stringify(data)
         })

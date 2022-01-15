@@ -7,7 +7,7 @@ var hour, minute;
 var currency = 1;
 $(document).ready(function () {
     $.ajax({
-        url: '/account/get-name?userID=user001',
+        url: '/account/get-name?'+'jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
         dataType: 'json',
         success: function(account_name) {
@@ -62,7 +62,7 @@ function transfer(){
     var account_money;
     var send_money;
     $.ajax({
-        url: '/account/get-docs?userID=user001',
+        url: '/account/get-docs?'+'jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
         dataType: 'json',
         success: function(account_data) {
@@ -97,7 +97,8 @@ function transfer(){
                         {
                             method: "POST",
                             headers: {
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
                             },
                             body: JSON.stringify(data)
                     })

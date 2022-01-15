@@ -7,7 +7,7 @@ $(document).ready(function () {
 });
 function GetExpenseCategory(){
     $.ajax({
-        url: '/recordCategory/get-docs?userID=user001&incomeOrExpense=支出',
+        url: '/recordCategory/get-docs?incomeOrExpense=支出'+'&jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
         dataType: 'json',
         success: function(expense_data) {
@@ -26,7 +26,7 @@ function GetExpenseCategory(){
 }
 function GetIncomeCategory(){
     $.ajax({
-        url: '/recordCategory/get-docs?userID=user001&incomeOrExpense=收入',
+        url: '/recordCategory/get-docs?incomeOrExpense=收入'+'&jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
         dataType: 'json',
         success: function(income_data) {
@@ -71,7 +71,7 @@ function delete_expense(){
     var table=document.getElementById("expense_category");
     document.getElementById("expense_remind").style.display = "none";
     $.ajax({
-        url: '/recordCategory/delete-doc?userID=user001&name='+table.rows[expenseNO].children[1].innerHTML+'&incomeOrExpense=支出',
+        url: '/recordCategory/delete-doc?name='+table.rows[expenseNO].children[1].innerHTML+'&incomeOrExpense=支出'+'&jwt='+localStorage.getItem("JWT-token"),
         type: 'DELETE',
         success: function(result) {
             console.log(result);
@@ -84,7 +84,7 @@ function delete_income(){
     var table=document.getElementById("income_category");
     document.getElementById("income_remind").style.display = "none";
     $.ajax({
-        url: '/recordCategory/delete-doc?userID=user001&name='+ table.rows[incomeNO].children[1].innerHTML +'&incomeOrExpense=收入',
+        url: '/recordCategory/delete-doc?name='+ table.rows[incomeNO].children[1].innerHTML +'&incomeOrExpense=收入'+'&jwt='+localStorage.getItem("JWT-token"),
         type: 'DELETE',
         success: function(result) {
             console.log(result);
@@ -142,7 +142,8 @@ function complete_expense(obj){
             {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
                 },
                 body: JSON.stringify(data),
                 error: function(warn){
@@ -151,7 +152,7 @@ function complete_expense(obj){
         })
         console.log(data);
         $.ajax({
-            url: '/recordCategory/get-docs?userID=user001&incomeOrExpense=支出',
+            url: '/recordCategory/get-docs?incomeOrExpense=支出'+'&jwt='+localStorage.getItem("JWT-token"),
             method: 'GET',
             dataType: 'json',
             success: function(expense_data) {
@@ -176,7 +177,8 @@ function complete_expense(obj){
             {
                 method: "PUT",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
                 },
                 body: JSON.stringify(data)
         })
@@ -200,7 +202,8 @@ function complete_income(obj){
             {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
                 },
                 body: JSON.stringify(data),
                 error: function(warn){
@@ -220,7 +223,8 @@ function complete_income(obj){
             {
                 method: "PUT",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
                 },
                 body: JSON.stringify(data)
         })

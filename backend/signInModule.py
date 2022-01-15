@@ -1,5 +1,5 @@
 from distutils.command.config import config
-from flask import Flask, request, jsonify, Blueprint
+from flask import Flask, request, jsonify, Blueprint, render_template, make_response, redirect
 from flask.blueprints import Blueprint
 import pymongo
 from google.oauth2 import id_token
@@ -7,6 +7,9 @@ from google.auth.transport import requests
 import mainDB
 import config
 import uuid
+import datetime
+from flask_jwt_extended import (
+    create_access_token, set_access_cookies, unset_jwt_cookies)
 
 appSignIn = Blueprint('appSignIn', __name__)
 
@@ -36,6 +39,15 @@ def sign_in():
                 "selectCurrency": "TWD"
             }
             mainDB.DB.get_collection(config.memberCol).insert_one(doc)
+
+        access_token = create_access_token(identity=userID)
+        #refresh_token = create_refresh_token(identity=userID)
+        resp = jsonify({'login': True})
+        set_access_cookies(resp, access_token)
+        #set_refresh_cookies(resp, refresh_token)
+
+        return resp, 200
+
         # ID token is valid. Get the user's Google Account ID from the decoded token.
         # user_id = id_info['sub']
         # reference: https://developers.google.com/identity/sign-in/web/backend-auth
@@ -44,4 +56,37 @@ def sign_in():
         raise ValueError('Invalid token')
 
     print('登入成功')
-    return jsonify(userID), 200
+    access_token = create_access_token(identity=userID)
+    return jsonify(access_token), 200
+
+
+@appSignIn.route('/test-sign-in', methods=["POST"])
+def test_sign_in():
+    userID = request.get_json().get('id_token')
+
+    if(mainDB.DB.get_collection(config.memberCol).find_one({"userID": userID}) == None):
+        print("hello")
+        doc = {
+            "_id": str(uuid.uuid4()),
+            "userID": userID,
+            "selectCurrency": "TWD"
+        }
+        mainDB.DB.get_collection(config.memberCol).insert_one(doc)
+
+    print('登入成功')
+
+    access_token = create_access_token(identity=userID)
+    #refresh_token = create_refresh_token(identity=userID)
+    resp = jsonify({'login': True})
+    set_access_cookies(resp, access_token)
+    #set_refresh_cookies(resp, refresh_token)
+
+    return resp, 200
+
+
+@appSignIn.route('/sign-out', methods=['GET'])
+def sign_out():
+    resp = make_response(redirect('/', 302))
+    #resp = jsonify({'logout': True})
+    unset_jwt_cookies(resp)
+    return resp

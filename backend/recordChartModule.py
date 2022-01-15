@@ -1,5 +1,6 @@
 from flask import Flask, json, request, jsonify, Blueprint
 from flask.blueprints import Blueprint
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 import recordChartDB
 
@@ -8,15 +9,17 @@ appRecordChart = Blueprint('appRecordChart', __name__)
 
 
 @appRecordChart.route("/recordChart/get-months-compare-with-incomeExpense", methods=["GET"])
+@jwt_required()
 def get_months_compare_with_incomeExpense():
-    userID = request.args.get("userID")
+    userID = get_jwt_identity()
     res = recordChartDB.get_months_compare(userID)
     return jsonify(res), 200
 
 
 @appRecordChart.route("/recordChart/get-category-compare", methods=["GET"])
+@jwt_required()
 def get_expense_category_compare():
-    userID = request.args.get("userID")
+    userID = get_jwt_identity()
     incomeOrExpense = request.args.get("incomeOrExpense")
     startDateYear = request.args.get("startDateYear")
     startDateMonth = request.args.get("startDateMonth")
