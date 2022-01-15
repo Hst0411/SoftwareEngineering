@@ -31,6 +31,7 @@ app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
 app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 app.config['JWT_QUERY_STRING_NAME'] = 'jwt'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=10)
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 jwt.init_app(app)
 
 app.register_blueprint(appRecord)
