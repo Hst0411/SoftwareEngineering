@@ -86,7 +86,7 @@ def test_sign_in():
 
 @appSignIn.route('/sign-out', methods=['GET'])
 def sign_out():
-    resp = make_response(redirect('/', 302))
+    resp = make_response(redirect('', 302))
     #resp = jsonify({'logout': True})
     unset_jwt_cookies(resp)
     return resp

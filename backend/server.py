@@ -64,14 +64,14 @@ def refresh_expiring_jwts(response):
 def unauthorized_callback(callback):
     # No auth header
     print("unauth")
-    return redirect('/', 302)
+    return redirect('', 302)
 
 #發的request沒有有效的jwt token，重新導向至入口網頁
 @jwt.invalid_token_loader
 def invalid_token_callback(callback):
     # Invalid Fresh/Non-Fresh Access token in auth header
     print("invalid")
-    resp = make_response(redirect('/', 302))
+    resp = make_response(redirect('', 302))
     unset_jwt_cookies(resp)
     return resp
     # return render_template('testSignIn.html')
@@ -81,7 +81,7 @@ def invalid_token_callback(callback):
 def expired_token_callback(callback, para):
     # Expired auth header
     print("expired")
-    resp = make_response(redirect('/', 302))
+    resp = make_response(redirect('', 302))
     unset_access_cookies(resp)
     return resp
 
