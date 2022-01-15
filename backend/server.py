@@ -30,7 +30,7 @@ app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
 app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 app.config['JWT_QUERY_STRING_NAME'] = 'jwt'
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=1)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=10)
 jwt.init_app(app)
 
 app.register_blueprint(appRecord)
@@ -42,15 +42,15 @@ app.register_blueprint(appCurrencyExchange)
 app.register_blueprint(appSignIn)
 
 
-#使用者每次發request之後，都更新快過期的jwt token
-@app.after_request
+# 使用者每次發request之後，都更新快過期的jwt token
+#@app.after_request
 def refresh_expiring_jwts(response):
     try:
         print("after request")
         exp_timestamp = get_jwt()["exp"]
         now = datetime.datetime.now(datetime.timezone.utc)
         target_timestamp = datetime.datetime.timestamp(
-            now + datetime.timedelta(minutes=2))
+            now + datetime.timedelta(minutes=3))
         if target_timestamp > exp_timestamp:
             access_token = create_access_token(identity=get_jwt_identity())
             set_access_cookies(response, access_token)
@@ -59,14 +59,18 @@ def refresh_expiring_jwts(response):
         # Case where there is not a valid JWT. Just return the original respone
         return response
 
-#發的request沒有有效的jwt token，重新導向至入口網頁
+# 發的request沒有有效的jwt token，重新導向至入口網頁
+
+
 @jwt.unauthorized_loader
 def unauthorized_callback(callback):
     # No auth header
     print("unauth")
     return redirect('/', 302)
 
-#發的request沒有有效的jwt token，重新導向至入口網頁
+# 發的request沒有有效的jwt token，重新導向至入口網頁
+
+
 @jwt.invalid_token_loader
 def invalid_token_callback(callback):
     # Invalid Fresh/Non-Fresh Access token in auth header
@@ -76,7 +80,9 @@ def invalid_token_callback(callback):
     return resp
     # return render_template('testSignIn.html')
 
-#發的request沒有有效的jwt token，重新導向至入口網頁
+# 發的request沒有有效的jwt token，重新導向至入口網頁
+
+
 @jwt.expired_token_loader
 def expired_token_callback(callback, para):
     # Expired auth header
@@ -84,6 +90,7 @@ def expired_token_callback(callback, para):
     resp = make_response(redirect('/', 302))
     unset_access_cookies(resp)
     return resp
+
 
 @app.route('/', methods=["GET"])
 def index_page():
