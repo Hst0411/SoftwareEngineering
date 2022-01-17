@@ -86,3 +86,10 @@ def budget_revise(userID, old_budgetName, new_budgetName, new_start_date, new_en
 def budget_delete(userID, budgetName):
     mainDB.DB.get_collection(config.recordCol).update_many(
         {"userID": userID, "budgetName": budgetName}, {"$set": {"budgetName": None}})
+
+def get_csv(userID):
+    temp = mainDB.DB.get_collection(config.recordCol).find({"userID": userID}, {"_id": 0, "userID": 0})
+    result = list()
+    for item in temp:
+        result.append(item)
+    return result

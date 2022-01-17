@@ -177,3 +177,10 @@ def get_docs():
     res = recordDB.get_docs(userID, incomeOrExpense, date)
 
     return jsonify(res), 200
+
+@appRecord.route("/record/get-csv", methods=["GET"])
+@jwt_required()
+def get_csv():
+    userID = get_jwt_identity()
+    res = recordDB.get_csv(userID)
+    return jsonify(res), 200
