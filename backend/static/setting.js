@@ -26,7 +26,7 @@ function json2csv(){
         success: function(target) {
             var final='名稱,帳戶,預算,類別,支出,金額,日期\n';
             for(var i=0;i<target.length;i++){
-                if(tartger[i].incomeOrExpense=="收入"){
+                if(target[i].incomeOrExpense=="收入"){
                     final+=' ,';
                 }
                 else{
