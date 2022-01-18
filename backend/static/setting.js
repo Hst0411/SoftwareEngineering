@@ -24,8 +24,14 @@ function json2csv(){
         method: 'GET',
         dataType: 'json',
         success: function(target) {
-            var final='帳戶,預算,類別,支出,金額,日期\n';
+            var final='名稱,帳戶,預算,類別,支出,金額,日期\n';
             for(var i=0;i<target.length;i++){
+                if(tartger[i].incomeOrExpense=="收入"){
+                    final+=' ,';
+                }
+                else{
+                    final+=target[i].name+',';
+                }
                 final+=target[i].accountName+',';
                 if(target[i].budgetName==null){
                     final+='無,';
