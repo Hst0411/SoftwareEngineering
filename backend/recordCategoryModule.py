@@ -65,11 +65,14 @@ def get_docs():
     elif incomeOrExpense == "收入":
         category_res = ["薪水", "獎金", "投資", "利息", "錢包", "其他"]
 
-    # 轉換成list(array)形式，僅回傳收入或支出的類別名稱
-    print(len(list(res)))
-    if len(list(res)) == 0:
+    # 檢查recordCategoryList是否為空
+    print(res["recordCategoryList"])
+    if len(res["recordCategoryList"]) == 0:
         return jsonify(category_res), 200
 
-    for item in list(res).pop(0)["recordCategoryList"]:
+    # 將類別名稱拉出來塞到回傳資料
+    for item in res["recordCategoryList"]:
+        print(item["name"])
         category_res.append(item["name"])
+    # 回傳收入或支出的類別名稱
     return jsonify(category_res), 200
