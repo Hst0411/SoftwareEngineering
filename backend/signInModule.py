@@ -34,12 +34,23 @@ def sign_in():
         userID = id_info['email']
         if(mainDB.DB.get_collection(config.memberCol).find_one({"userID": userID}) == None):
             print("hello")
+            # 新增會員資料
             doc = {
                 "_id": str(uuid.uuid4()),
                 "userID": userID,
                 "selectCurrency": "TWD"
             }
             mainDB.DB.get_collection(config.memberCol).insert_one(doc)
+            # 新增預設帳戶(錢包)
+            accountDoc = {
+                "_id": str(uuid.uuid4()),
+                "userID": userID,
+                "accountName": "錢包",
+                "leftMoneyAmount": 0,
+                "transferRecord": []
+            }
+            mainDB.DB.get_collection(config.accountCol).insert_one(accountDoc)
+            # 新增自訂類別名稱表格
             cate_doc = {
                 "_id": str(uuid.uuid4()),
                 "userID": userID,
