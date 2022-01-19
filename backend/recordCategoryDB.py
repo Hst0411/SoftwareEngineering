@@ -57,4 +57,8 @@ def get_docs(userID, incomeOrExpense):
             }}
         }}
     ]
-    return mainDB.DB.get_collection(config.recordCategoryCol).aggregate(pipeline)
+    # temp_res為MongoCursor型態
+    temp_res = mainDB.DB.get_collection(config.recordCategoryCol).aggregate(pipeline)
+    # 將temp_res的第一個物件取出回傳
+    for item in temp_res:
+        return item

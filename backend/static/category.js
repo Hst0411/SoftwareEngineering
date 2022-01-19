@@ -195,7 +195,7 @@ function complete_income(obj){
         var data;
         data = {
             "userID": "user001",
-            "old_incomeOrExpense": "收入",
+            "incomeOrExpense": "收入",
             "name": category_name
         }
         fetch('/recordCategory/insert-doc',
