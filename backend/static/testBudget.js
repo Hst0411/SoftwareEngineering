@@ -94,13 +94,14 @@ function complete_fill(obj){
 function set_text(obj)
 {
     var budgetName = obj.parentNode.parentNode.cells[1].children[0].value;
-    obj.parentNode.parentNode.cells[1].innerHTML = obj.parentNode.parentNode.cells[1].children[0].value;
+    
+    var sDay="",eDay="";
     if(obj.parentNode.parentNode.cells[2].children[0].value>obj.parentNode.parentNode.cells[3].children[0].value){
         alert("開始日期不能大於結束日期!!");
     }
     else{
         obj.parentNode.parentNode.cells[1].innerHTML = obj.parentNode.parentNode.cells[1].children[0].value;
-        obj.style.display="none";   
+        obj.style.display="none";    
     for(var i = 0; i < 10; i++){
         if(i == 4 || i == 7){
             sDay += "/";
@@ -216,7 +217,7 @@ function set_text(obj)
         })
         editBudget = 0;
     }
-    }
+  }
 }
 
 function edit_budget(obj)
