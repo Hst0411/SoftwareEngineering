@@ -4,8 +4,20 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 
 var year, month, day;
 var hour, minute;
-var currency = 1;
+var currency = 1, currencyName;
 $(document).ready(function () {
+    if(localStorage.getItem('myCurrency') == null){
+        currency = 1;
+        currencyName = "TWD";
+    }
+    else{
+        currency = localStorage.getItem('myCurrency');
+        currencyName = localStorage.getItem('myCurrencyName');
+    }
+    console.log(currency);
+    console.log(currencyName);
+    document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
+    currencyName +"</span></strong>";
     $.ajax({
         url: '/account/get-name?'+'jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',
@@ -30,12 +42,6 @@ $(document).ready(function () {
   });
 
 function transfer(){
-    if(localStorage.getItem('myCurrency') == null){
-        currency = 1;
-    }
-    else{
-        currency = localStorage.getItem('myCurrency');
-    }
     var date;
     date = new Date();
     day = date.getDate();

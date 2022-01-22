@@ -1,7 +1,20 @@
 var expenseNO, incomeNO;
 var editExpense = 0, editIncome = 0;   //沒有edit
 var oldExpenseName, oldIncomeName;
+var currency = 1, currencyName;
 $(document).ready(function () {
+    if(localStorage.getItem('myCurrency') == null){
+        currency = 1;
+        currencyName = "TWD";
+    }
+    else{
+        currency = localStorage.getItem('myCurrency');
+        currencyName = localStorage.getItem('myCurrencyName');
+    }
+    console.log(currency);
+    console.log(currencyName);
+    document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
+    currencyName +"</span></strong>";
     GetExpenseCategory();
     GetIncomeCategory();
 });

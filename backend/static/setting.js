@@ -2,6 +2,11 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
 src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
 src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 
+var currencyName;
+$(document).ready(function () {
+    document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
+    localStorage.getItem('myCurrencyName') +"</span></strong>";
+});
 function GetCurrencyValue(){
     var select = document.getElementById("Currencyvalue");
     var selectData = select.options[select.selectedIndex].value;
@@ -13,6 +18,9 @@ function GetCurrencyValue(){
         success:function(currency){
             console.log(currency);
             localStorage.setItem('myCurrency', currency);
+            localStorage.setItem('myCurrencyName',selectData.toString());
+            document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
+            localStorage.getItem('myCurrencyName') +"</span></strong>";
         }
     });
     alert("貨幣轉換成功!");

@@ -4,14 +4,20 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 
 var accountNO, accountID;
 var editAccount = 0;
-var currency = 1;
+var currency = 1, currencyName;
 $(document).ready(function () {
     if(localStorage.getItem('myCurrency') == null){
         currency = 1;
+        currencyName = "TWD";
     }
     else{
         currency = localStorage.getItem('myCurrency');
+        currencyName = localStorage.getItem('myCurrencyName');
     }
+    console.log(currency);
+    console.log(currencyName);
+    document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
+    currencyName +"</span></strong>";
     $.ajax({
         url: '/account/get-docs?'+'jwt='+localStorage.getItem("JWT-token"),
         method: 'GET',

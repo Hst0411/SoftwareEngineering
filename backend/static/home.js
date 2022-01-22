@@ -10,7 +10,7 @@ var close = 0;
 var expense_type, income_type;
 var expense_budget;
 var expense_account, income_account;
-var currency = 1;
+var currency = 1, currencyName;
 //初始化
 $(document).ready(function () {
     //日期
@@ -29,11 +29,18 @@ $(document).ready(function () {
     console.log(day);
     if(localStorage.getItem('myCurrency') == null){
         currency = 1;
+        currencyName = "TWD";
+        localStorage.setItem('myCurrency', 1);
+        localStorage.setItem('myCurrencyName', 'TWD');
     }
     else{
         currency = localStorage.getItem('myCurrency');
+        currencyName = localStorage.getItem('myCurrencyName');
     }
     console.log(currency);
+    console.log(currencyName);
+    document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
+    currencyName +"</span></strong>";
     //支出
     GetExpenseData();
     //收入
