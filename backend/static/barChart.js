@@ -5,7 +5,7 @@ src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 var d = new Date();
 
 var firstMonthIncome, firstMonthExpense, secondMonthIncome, secondMonthExpense, thirdMonthIncome, thirdMonthExpense; //目前沒設預設值所以沒有圖
-var currency = 1;
+var currency = 1, currencyName;
 var month;
 $(document).ready(function () {
   var date = new Date();
@@ -15,6 +15,16 @@ $(document).ready(function () {
   
   var formattedDate =  year+"-"+month+"-"+day; //抓 yyyy-mm-dd 日期
   console.log(formattedDate);
+  if(localStorage.getItem('myCurrency') == null){
+    currency = 1;
+    currencyName = "TWD";
+  }
+  else{
+      currency = localStorage.getItem('myCurrency');
+      currencyName = localStorage.getItem('myCurrencyName');
+  }
+  document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
+  currencyName +"</span></strong>";
   draw_bar();
 });
 
@@ -24,12 +34,6 @@ function pad2(n) {
 
 //一進來就會畫因爲不會再更新
 function draw_bar() {
-  if(localStorage.getItem('myCurrency') == null){
-    currency = 1;
-  }
-  else{
-      currency = localStorage.getItem('myCurrency');
-  }
   var a,b,c,A,B,C;
     // create data set on our data
     $.ajax({

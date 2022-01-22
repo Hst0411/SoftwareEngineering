@@ -5,7 +5,20 @@ src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"
 var start_year='', start_month, start_day, dateSent_start, dateSent_end;
 var end_year='', end_month, end_day;
 var incomelength, expenselength;
-var currency = 1;
+var currency = 1, currencyName;
+
+$(document).ready(function () {
+    if(localStorage.getItem('myCurrency') == null){
+      currency = 1;
+      currencyName = "TWD";
+    }
+    else{
+        currency = localStorage.getItem('myCurrency');
+        currencyName = localStorage.getItem('myCurrencyName');
+    }
+    document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
+    currencyName +"</span></strong>";
+});
 
 var data_income = [
     {x: "", value: 0},
@@ -38,10 +51,16 @@ var elementID2 = "container2";
 function GetIncomeData(){
     if(localStorage.getItem('myCurrency') == null){
         currency = 1;
+        currencyName = "TWD";
     }
     else{
         currency = localStorage.getItem('myCurrency');
+        currencyName = localStorage.getItem('myCurrencyName');
     }
+    console.log(currency);
+    console.log(currencyName);
+    document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
+    currencyName +"</span></strong>";
     $.ajax({
         url: '/recordChart/get-category-compare?startDateYear='+start_year+'&startDateMonth='+start_month+
         '&startDateDay='+start_day+'&endDateYear='+end_year+'&endDateMonth='+end_month+'&endDateDay='+end_day+'&incomeOrExpense=收入'+'&jwt='+localStorage.getItem("JWT-token"),
