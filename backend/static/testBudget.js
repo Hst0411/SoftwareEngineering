@@ -97,6 +97,12 @@ function set_text(obj)
     obj.parentNode.parentNode.cells[1].innerHTML = obj.parentNode.parentNode.cells[1].children[0].value;
     var sDay="",eDay="";
     obj.style.display="none";
+    if(obj.parentNode.parentNode.cells[2].children[0].value>obj.parentNode.parentNode.cells[3].children[0].value){
+        alert("開始日期不能大於結束日期!!");
+    }
+    else{
+        obj.parentNode.parentNode.cells[1].innerHTML = obj.parentNode.parentNode.cells[1].children[0].value;
+        obj.style.display="none";   
     for(var i = 0; i < 10; i++){
         if(i == 4 || i == 7){
             sDay += "/";
@@ -212,6 +218,7 @@ function set_text(obj)
         })
         editBudget = 0;
     }
+    }
 }
 
 function edit_budget(obj)
@@ -219,12 +226,31 @@ function edit_budget(obj)
     editBudget = 1;
     console.log(obj.parentNode.cells[1].innerHTML);
     var tmp = obj.parentNode.cells[1].innerHTML;
+    var tmp2='';
     obj.parentNode.cells[0].innerHTML = "<button class='complete' onclick='complete_fill(this)' style='width:65px;'>完成新增</button>";
     obj.parentNode.cells[1].innerHTML = "<input type='textbox' style='width:100px;height:26px;margin:7px' value="+tmp+">";
     tmp = obj.parentNode.cells[2].innerHTML;
-    obj.parentNode.cells[2].innerHTML = "<input type='date' id='startDate' style='width:130px;height:27px;margin:7px;'>";
+    tmp2='';
+    for(var i=0;i<10;i++){
+        if(i==4||i==7){
+            tmp2+='-';
+        }
+        else{
+            tmp2+=tmp[i];
+        }
+    }
+    obj.parentNode.cells[2].innerHTML = "<input type='date' id='startDate' style='width:130px;height:27px;margin:7px;'value="+tmp2+">";
     tmp = obj.parentNode.cells[3].innerHTML;
-    obj.parentNode.cells[3].innerHTML = "<input type='date' id='endDate' style='width:130px;height:27px;margin:7px;'>";
+    tmp2='';
+    for(var i=0;i<10;i++){
+        if(i==4||i==7){
+            tmp2+='-';
+        }
+        else{
+            tmp2+=tmp[i];
+        }
+    }
+    obj.parentNode.cells[3].innerHTML = "<input type='date' id='endDate' style='width:130px;height:27px;margin:7px;'value="+tmp2+">";
     tmp = obj.parentNode.cells[4].innerHTML;
     obj.parentNode.cells[4].innerHTML = "<input type='textbox' style='width:100px;height:26px;margin:7px;' placeholder='Ex : 10000' value="+tmp+">";
 }
