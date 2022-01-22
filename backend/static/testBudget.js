@@ -95,8 +95,6 @@ function set_text(obj)
 {
     var budgetName = obj.parentNode.parentNode.cells[1].children[0].value;
     obj.parentNode.parentNode.cells[1].innerHTML = obj.parentNode.parentNode.cells[1].children[0].value;
-    var sDay="",eDay="";
-    obj.style.display="none";
     if(obj.parentNode.parentNode.cells[2].children[0].value>obj.parentNode.parentNode.cells[3].children[0].value){
         alert("開始日期不能大於結束日期!!");
     }
