@@ -30,6 +30,8 @@ $(document).ready(function () {
     if(localStorage.getItem('myCurrency') == null){
         currency = 1;
         currencyName = "TWD";
+        localStorage.setItem('myCurrency', 1);
+        localStorage.setItem('myCurrencyName', 'TWD');
     }
     else{
         currency = localStorage.getItem('myCurrency');
