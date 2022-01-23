@@ -74,7 +74,7 @@ function delete_budget() {
     var table = document.getElementById("budget_table");
     document.getElementById("budget_remind").style.display = "none";
     $.ajax({
-        url: '/budget/delete-doc?id='+ budgetID+'&jwt='+localStorage.getItem("JWT-token"),
+        url: '/budget/delete-doc?id='+ budgetID,
         type: 'DELETE',
         success: function(result) {
             console.log(result);
@@ -171,17 +171,24 @@ function set_text(obj)
             {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data),
                 error: function(warn){
                     window.alert("輸入不可為空白")
                 }
         })
+        .then(response => {
+            return response.json()
+        })
+        .then(jsonData => {
+            if (jsonData["Status"] == "error") {
+                window.alert(jsonData["Msg"]);
+            }
+        });
         console.log(data);
         $.ajax({
-            url: '/budget/get-docs?'+'jwt='+localStorage.getItem("JWT-token"),
+            url: '/budget/get-docs?',
             method: 'GET',
             dataType: 'json',
             success: function(budget_data) {
@@ -216,11 +223,21 @@ function set_text(obj)
             {
                 method: "PUT",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
         })
+        .then(response => {
+            return response.json()
+        })
+        .then(jsonData => {
+            if (jsonData["Status"] == "error") {
+                window.alert(jsonData["Msg"]);
+            }
+            else if(jsonData["Status"] == "special") {
+                window.alert("預算名稱："+jsonData["budgetName"] + " 超支！");
+            }
+        });
         editBudget = 0;
     }
   }

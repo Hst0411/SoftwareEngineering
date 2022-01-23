@@ -16,10 +16,13 @@ def insert_doc():
     userID = get_jwt_identity()
     accountName = body.get("accountName")
     leftMoneyAmount = body.get("leftMoneyAmount")
+    if accountDB.check_name_duplicate(userID, accountName) != None:
+        return jsonify({"Status": "error", "Msg": "名稱不得重複"}), 409
     res = accountDB.insert_doc(userID, accountName, leftMoneyAmount)
     if res.acknowledged:
-        return "Inserted", 200
-    return "Error", 500
+        return jsonify({"Status": "ok", "Msg": "新增成功"}), 200
+    
+    return jsonify({"Status": "error", "Msg": "錯誤"}), 500
 
 
 @appAccount.route("/account/update-doc", methods=["PUT"])
@@ -29,10 +32,16 @@ def update_doc():
     id = body.get("id")
     userID = get_jwt_identity()
     accountName = body.get("accountName")
+
+    check = accountDB.check_name_duplicate(userID, accountName)
+    if check != None:
+        if check["_id"] != id:
+            return jsonify({"Status": "error", "Msg": "名稱不得重複"}), 409
+    
     res = accountDB.update_doc(id, userID, accountName)
     if res.acknowledged:
-        return "Updated", 200
-    return "Error", 500
+        return jsonify({"Status": "ok", "Msg": "編輯成功"}), 200
+    return jsonify({"Status": "error", "Msg": "錯誤"}), 500
 
 
 @appAccount.route("/account/delete-doc", methods=["DELETE"])
