@@ -61,8 +61,9 @@ def sign_in():
 
         access_token = create_access_token(identity=userID)
         #refresh_token = create_refresh_token(identity=userID)
-        resp = jsonify({'login': True, "selectCurrencyExRate": str(currencyExchangeModule.cal_exchange_rate(
-            mainDB.DB.get_collection(config.memberCol).find_one({"userID": userID})["selectCurrency"]))})
+        selected_currency_name = mainDB.DB.get_collection(
+            config.memberCol).find_one({"userID": userID})["selectCurrency"]
+        resp = jsonify({'login': True, "selectCurrencyExRate": str(currencyExchangeModule.cal_exchange_rate(selected_currency_name)), "selectCurrencyName":selected_currency_name})
         set_access_cookies(resp, access_token)
         #set_refresh_cookies(resp, refresh_token)
 

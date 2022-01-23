@@ -83,6 +83,8 @@
     <h3>記帳小幫手</h3>
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
   </div>
+  <div id="wait">
+  </div>
   <!--div>
     <a href="#" onclick="signOut();">Sign out</a>
   </div-->
@@ -98,7 +100,6 @@
     function onSignIn(googleUser) {
       // Useful data for your client-side scripts:
       var profile = googleUser.getBasicProfile();
-      console.log("ID: " + profile.getId()); // Don't send this directly to your server!
       console.log('Full Name: ' + profile.getName());
       console.log('Given Name: ' + profile.getGivenName());
       console.log('Family Name: ' + profile.getFamilyName());
@@ -127,12 +128,14 @@
         .then(returnData => {
           console.log(returnData);
           localStorage.setItem("myCurrency", returnData["selectCurrencyExRate"]);
+          localStorage.setItem("myCurrencyName", returnData["selectCurrencyName"]);
         })
         .then(() => {
           //取得user的google帳戶資料就先sign out
           //並導向至首頁
+          document.getElementById("wait").innerHTML = "<p>請稍等...<p>"
           signOut();
-          setTimeout(redir, 500);
+          setTimeout(redir, 1000);
         })
     }
 

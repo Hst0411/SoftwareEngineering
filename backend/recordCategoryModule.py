@@ -16,8 +16,10 @@ def insert_doc():
     userID = get_jwt_identity()
     name = body.get("name")
     incomeOrExpense = body.get("incomeOrExpense")
+    if recordCategoryDB.check_name_duplicate(userID, name, incomeOrExpense) != None:
+        return jsonify({"Status": "error", "Msg": "名稱不得重複"}), 409
     recordCategoryDB.insert_doc(userID, name, incomeOrExpense)
-    return "OK", 200
+    return jsonify({"Status": "ok", "Msg": "新增成功"}), 200
 
 
 @appRecordCategory.route("/recordCategory/update-doc", methods=["PUT"])
@@ -30,12 +32,15 @@ def update_doc():
     old_incomeOrExpense = body.get("old_incomeOrExpense")
 
     new_name = body.get("new_name")
+
+    if recordCategoryDB.check_name_duplicate(userID, new_name, old_incomeOrExpense) != None:
+        return jsonify({"Status": "error", "Msg": "名稱不得重複"}), 409
     res = recordCategoryDB.update_doc(
         userID, old_name, old_incomeOrExpense, new_name)
     if res.acknowledged:
-        return "Updated!", 200
+        return jsonify({"Status": "ok", "Msg": "編輯成功"}), 200
 
-    return "Error", 500
+    return jsonify({"Status": "error", "Msg": "錯誤"}), 500
 
 
 @appRecordCategory.route("/recordCategory/delete-doc", methods=["DELETE"])

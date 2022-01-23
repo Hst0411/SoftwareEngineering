@@ -62,3 +62,11 @@ def get_docs(userID, incomeOrExpense):
     # 將temp_res的第一個物件取出回傳
     for item in temp_res:
         return item
+
+def check_name_duplicate(userID, name, incomeOrExpense):
+    query = {
+        "userID": userID,
+        "recordCategoryList.name": name,
+        "recordCategoryList.incomeOrExpense": incomeOrExpense
+    }
+    return mainDB.DB.get_collection(config.recordCategoryCol).find_one(query)

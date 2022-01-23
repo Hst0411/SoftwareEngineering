@@ -19,7 +19,7 @@ $(document).ready(function () {
     document.getElementById("currencyValue").innerHTML = "當下幣值為<strong><span style='color:red;'>"+
     currencyName +"</span></strong>";
     $.ajax({
-        url: '/account/get-docs?'+'jwt='+localStorage.getItem("JWT-token"),
+        url: '/account/get-docs?',
         method: 'GET',
         dataType: 'json',
         success: function(account_data) {
@@ -87,7 +87,7 @@ function account_delete(){
 	table.deleteRow(accountNO);                 //刪除第幾列
     document.getElementById("remind").style.display = "none";
     $.ajax({
-        url: '/account/delete-doc?id='+ accountID +'&jwt='+localStorage.getItem("JWT-token"),
+        url: '/account/delete-doc?id='+ accountID,
         type: 'DELETE',
         success: function(result) {
             console.log(result);
@@ -114,11 +114,18 @@ function account_complete(obj){
             {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
         })
+        .then(response => {
+            return response.json()
+        })
+        .then(jsonData => {
+            if (jsonData["Status"] == "error") {
+                window.alert(jsonData["Msg"]);
+            }
+        });
     }
     else{
         accountID = $(obj.parentNode).attr("id");
@@ -133,11 +140,18 @@ function account_complete(obj){
             {
                 method: "PUT",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+localStorage.getItem("JWT-token")
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
         })
+        .then(response => {
+            return response.json()
+        })
+        .then(jsonData => {
+            if (jsonData["Status"] == "error") {
+                window.alert(jsonData["Msg"]);
+            }
+        });
         editAccount = 1;
     }
 

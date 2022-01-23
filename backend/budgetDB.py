@@ -39,17 +39,18 @@ def update_doc(userID, budgetName, id, startdate, enddate, targetMoneyAmount):
         "endDate": datetime(enddate["year"], enddate["month"], enddate["day"]),
         "targetMoneyAmount": targetMoneyAmount
     }
-    old_doc = mainDB.DB.get_collection(config.budgetCol).find_one_and_update(query, {"$set": doc}, return_document=ReturnDocument.BEFORE)
-    recordDB.budget_revise(userID, old_doc["budgetName"], budgetName, startdate, enddate)
+    old_doc = mainDB.DB.get_collection(config.budgetCol).find_one_and_update(
+        query, {"$set": doc}, return_document=ReturnDocument.BEFORE)
+    recordDB.budget_revise(
+        userID, old_doc["budgetName"], budgetName, startdate, enddate)
     if old_doc["usedMoneyAmount"] >= targetMoneyAmount * 0.75:
         mainDB.DB.get_collection(config.budgetCol).update_one(
             query, {"$set": {"overSpend": True}})
-        return {"budgetName":budgetName, "overSpend":True}
+        return {"Status": "special", "budgetName": budgetName, "overSpend": True}
     else:
         mainDB.DB.get_collection(config.budgetCol).update_one(
             query, {"$set": {"overSpend": False}})
-        return {"budgetName":budgetName, "overSpend":False}
-
+        return {"Status": "ok", "budgetName": budgetName, "overSpend": False}
 
 
 def delete_doc(id, userID):
@@ -57,7 +58,8 @@ def delete_doc(id, userID):
         "userID": userID,
         "_id": id
     }
-    old_doc = mainDB.DB.get_collection(config.budgetCol).find_one_and_delete(query)
+    old_doc = mainDB.DB.get_collection(
+        config.budgetCol).find_one_and_delete(query)
     recordDB.budget_delete(userID, old_doc["budgetName"])
     return "OK"
 
@@ -114,3 +116,11 @@ def get_available_budget_name(userID, year, month, day):
             "$gte": datetime(int(year), int(month), int(day))}}}
     ]
     return mainDB.DB.get_collection(config.budgetCol).aggregate(pipeline)
+
+
+def check_name_duplicate(userID, budgetName):
+    query = {
+        "userID": userID,
+        "budgetName": budgetName
+    }
+    return mainDB.DB.get_collection(config.budgetCol).find_one(query)

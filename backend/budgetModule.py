@@ -19,11 +19,12 @@ def insert_doc():
     startdate = body.get("startDate")
     enddate = body.get("endDate")
     targetMoneyAmount = body.get("targetMoneyAmount")
-
+    if budgetDB.check_name_duplicate(userID, budgetName) != None:
+        return jsonify({"Status": "error", "Msg": "名稱不得重複"}), 409
     res = budgetDB.insert_doc(
         userID, budgetName, startdate, enddate, targetMoneyAmount)
 
-    return "OK", 200
+    return jsonify({"Status": "ok", "Msg": "新增成功"}), 200
 
 
 @appBudget.route("/budget/update-doc", methods=["PUT"])
@@ -36,11 +37,14 @@ def update_doc():
     startdate = body.get("startDate")
     enddate = body.get("endDate")
     targetMoneyAmount = body.get("targetMoneyAmount")
-
+    check = budgetDB.check_name_duplicate(userID, budgetName)
+    if check != None:
+        if check["_id"] != id:
+            return jsonify({"Status": "error", "Msg": "名稱不得重複"}), 409
     res = budgetDB.update_doc(
         userID, budgetName, id, startdate, enddate, targetMoneyAmount)
     # 回傳該預算名稱及是否超支
-    return res
+    return res, 200
 
 
 @appBudget.route("/budget/delete-doc", methods=["DELETE"])

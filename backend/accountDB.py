@@ -123,3 +123,11 @@ def record_revise_doc_increase(userID, new_accountName, new_moneyAmount):
         "accountName": new_accountName
     }
     mainDB.DB.get_collection(config.accountCol).update_one(query, {"$inc": {"leftMoneyAmount": new_moneyAmount}})
+
+
+def check_name_duplicate(userID, accountName):
+    query = {
+        "userID": userID,
+        "accountName": accountName
+    }
+    return mainDB.DB.get_collection(config.accountCol).find_one(query)
