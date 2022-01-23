@@ -9,6 +9,7 @@ import accountDB
 
 appRecord = Blueprint('appRecord', __name__)
 
+
 @appRecord.route("/record/insert-doc", methods=["POST"])
 @jwt_required()
 def insert_doc():
@@ -34,7 +35,7 @@ def insert_doc():
         userID, budgetName, moneyAmount)
 
     # 回傳預算名稱及該項是否超支
-    return {"budgetName": budgetName, "overSpend": overSpend}, 200
+    return {"Status": "special", "budgetName": budgetName, "overSpend": overSpend}, 200
 
 
 @appRecord.route("/record/update-doc", methods=["PUT"])
@@ -131,7 +132,7 @@ def update_doc():
                 userID, new_budgetName, old_moneyAmount)
 
     if res.acknowledged:
-        return {"budgetName": new_budgetName, "overSpend": overSpend}, 200
+        return {"Status": "special", "budgetName": new_budgetName, "overSpend": overSpend}, 200
 
     return "Error", 500
 
@@ -146,9 +147,11 @@ def delete_doc():
 
     # section for revise account collection
     if res["incomeOrExpense"] == "支出":
-        accountDB.record_revise_doc_increase(userID, res["accountName"], res["moneyAmount"])
+        accountDB.record_revise_doc_increase(
+            userID, res["accountName"], res["moneyAmount"])
     else:
-        accountDB.record_revise_doc_decrease(userID, res["accountName"], res["moneyAmount"])
+        accountDB.record_revise_doc_decrease(
+            userID, res["accountName"], res["moneyAmount"])
 
     # section for revise budget collection
     # 需檢查res是否為空?
@@ -177,6 +180,7 @@ def get_docs():
     res = recordDB.get_docs(userID, incomeOrExpense, date)
 
     return jsonify(res), 200
+
 
 @appRecord.route("/record/get-csv", methods=["GET"])
 @jwt_required()
