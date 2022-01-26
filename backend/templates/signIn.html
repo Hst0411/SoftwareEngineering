@@ -84,6 +84,7 @@
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
   </div>
   <div id="wait">
+    <button onclick="testSignIn();">測試用帳號</button>
   </div>
   <!--div>
     <a href="#" onclick="signOut();">Sign out</a>
@@ -135,12 +136,41 @@
           //並導向至首頁
           document.getElementById("wait").innerHTML = "<p>請稍等...<p>"
           signOut();
-          setTimeout(redir, 1000);
+          setTimeout(redir, 500);
         })
     }
 
     function redir() {
       window.location.href = "/home.html";
+    }
+
+    function testSignIn() {
+      var data;
+      data = {
+        "userName": "defaultUser"
+      }
+
+      fetch('/test-sign-in', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => {
+          return response.json();
+        })
+        .then(returnData => {
+          console.log(returnData);
+          localStorage.setItem("myCurrency", returnData["selectCurrencyExRate"]);
+          localStorage.setItem("myCurrencyName", returnData["selectCurrencyName"]);
+        })
+        .then(() => {
+          //取得user的google帳戶資料就先sign out
+          //並導向至首頁
+          document.getElementById("wait").innerHTML = "<p>請稍等...<p>"
+          setTimeout(redir, 500);
+        })
     }
   </script>
 </body>

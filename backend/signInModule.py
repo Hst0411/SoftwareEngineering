@@ -60,12 +60,13 @@ def sign_in():
                 config.recordCategoryCol).insert_one(cate_doc)
 
         access_token = create_access_token(identity=userID)
-        #refresh_token = create_refresh_token(identity=userID)
+        # refresh_token = create_refresh_token(identity=userID)
         selected_currency_name = mainDB.DB.get_collection(
             config.memberCol).find_one({"userID": userID})["selectCurrency"]
-        resp = jsonify({'login': True, "selectCurrencyExRate": str(currencyExchangeModule.cal_exchange_rate(selected_currency_name)), "selectCurrencyName":selected_currency_name})
+        resp = jsonify({'login': True, "selectCurrencyExRate": str(currencyExchangeModule.cal_exchange_rate(
+            selected_currency_name)), "selectCurrencyName": selected_currency_name})
         set_access_cookies(resp, access_token)
-        #set_refresh_cookies(resp, refresh_token)
+        # set_refresh_cookies(resp, refresh_token)
 
         return resp, 200
 
@@ -76,31 +77,46 @@ def sign_in():
         # Invalid token
         raise ValueError('Invalid token')
 
-    print('登入成功')
-    access_token = create_access_token(identity=userID)
-    return jsonify(access_token), 200
-
-
+# 測試帳號登入用
 @appSignIn.route('/test-sign-in', methods=["POST"])
 def test_sign_in():
-    userID = request.get_json().get('id_token')
+    userID = request.get_json().get('userName')
 
     if(mainDB.DB.get_collection(config.memberCol).find_one({"userID": userID}) == None):
         print("hello")
+        # 新增會員資料
         doc = {
             "_id": str(uuid.uuid4()),
             "userID": userID,
             "selectCurrency": "TWD"
         }
         mainDB.DB.get_collection(config.memberCol).insert_one(doc)
-
-    print('登入成功')
+        # 新增預設帳戶(錢包)
+        accountDoc = {
+            "_id": str(uuid.uuid4()),
+            "userID": userID,
+            "accountName": "錢包",
+            "leftMoneyAmount": 0,
+            "transferRecord": []
+        }
+        mainDB.DB.get_collection(config.accountCol).insert_one(accountDoc)
+        # 新增自訂類別名稱表格
+        cate_doc = {
+            "_id": str(uuid.uuid4()),
+            "userID": userID,
+            "recordCategoryList": []
+        }
+        mainDB.DB.get_collection(
+            config.recordCategoryCol).insert_one(cate_doc)
 
     access_token = create_access_token(identity=userID)
-    #refresh_token = create_refresh_token(identity=userID)
-    resp = jsonify({'login': True})
+    # refresh_token = create_refresh_token(identity=userID)
+    selected_currency_name = mainDB.DB.get_collection(
+        config.memberCol).find_one({"userID": userID})["selectCurrency"]
+    resp = jsonify({'login': True, "selectCurrencyExRate": str(currencyExchangeModule.cal_exchange_rate(
+        selected_currency_name)), "selectCurrencyName": selected_currency_name})
     set_access_cookies(resp, access_token)
-    #set_refresh_cookies(resp, refresh_token)
+    # set_refresh_cookies(resp, refresh_token)
 
     return resp, 200
 
@@ -108,6 +124,6 @@ def test_sign_in():
 @appSignIn.route('/sign-out', methods=['GET'])
 def sign_out():
     resp = make_response(redirect('/', 302))
-    #resp = jsonify({'logout': True})
+    # resp = jsonify({'logout': True})
     unset_jwt_cookies(resp)
     return resp

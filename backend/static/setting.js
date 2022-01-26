@@ -12,7 +12,7 @@ function GetCurrencyValue(){
     var selectData = select.options[select.selectedIndex].value;
     console.log(selectData);
     $.ajax({
-        url: '/currencyExchange/get-exchange-rate?targetCurrency='+selectData.toString()+'&jwt='+localStorage.getItem("JWT-token"),
+        url: '/currencyExchange/get-exchange-rate?targetCurrency='+selectData.toString(),
         method: 'GET',
         dataType: 'json',
         success:function(currency){
@@ -23,7 +23,7 @@ function GetCurrencyValue(){
             localStorage.getItem('myCurrencyName') +"</span></strong>";
         }
     });
-    alert("貨幣轉換成功!");
+    alert("貨幣轉換成功!(請稍等上方顯示幣值轉換後再切換頁面)");
 }
 
 function json2csv(){
