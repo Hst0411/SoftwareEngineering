@@ -3,6 +3,7 @@ from pymongo import MongoClient, DESCENDING
 from flask_cors import CORS
 import os
 import datetime
+from flask import send_from_directory     
 
 
 import config
@@ -42,6 +43,9 @@ app.register_blueprint(appRecordChart)
 app.register_blueprint(appCurrencyExchange)
 app.register_blueprint(appSignIn)
 
+@app.route('/favicon.ico') 
+def favicon(): 
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # 使用者每次發request之後，都更新快過期的jwt token
 @app.after_request
